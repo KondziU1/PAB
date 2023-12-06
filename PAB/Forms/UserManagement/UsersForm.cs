@@ -40,11 +40,11 @@ namespace PAB.Forms.UserManagement
         private void btnDeleteUser_Click(object sender, EventArgs e)
         {
             var id = SelectedRowID();
-            DialogResult = MessageBox.Show($"Czy chcesz usunąć użytkownika o ID: {id} ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var user = UserService.GetUserById(id);
+            DialogResult = MessageBox.Show($"Czy chcesz usunąć użytkownika: {user.Login} ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (DialogResult == DialogResult.Yes)
             {
-                var user = UserService.GetUserById(id);
                 UserService.DeleteUser(user);
                 refresh();
             }
