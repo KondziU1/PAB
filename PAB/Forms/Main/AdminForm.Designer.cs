@@ -33,8 +33,8 @@
             iconPictureBox1 = new FontAwesome.Sharp.IconPictureBox();
             btnHome = new FontAwesome.Sharp.IconButton();
             btnSignOut = new FontAwesome.Sharp.IconButton();
-            iconButton3 = new FontAwesome.Sharp.IconButton();
-            iconButton2 = new FontAwesome.Sharp.IconButton();
+            btnDevices = new FontAwesome.Sharp.IconButton();
+            btnSettings = new FontAwesome.Sharp.IconButton();
             btnUsers = new FontAwesome.Sharp.IconButton();
             panelForm = new Panel();
             panelMenu.SuspendLayout();
@@ -59,8 +59,8 @@
             panelMenu.Controls.Add(iconPictureBox1);
             panelMenu.Controls.Add(btnHome);
             panelMenu.Controls.Add(btnSignOut);
-            panelMenu.Controls.Add(iconButton3);
-            panelMenu.Controls.Add(iconButton2);
+            panelMenu.Controls.Add(btnDevices);
+            panelMenu.Controls.Add(btnSettings);
             panelMenu.Controls.Add(labelLogin);
             panelMenu.Controls.Add(btnUsers);
             panelMenu.Location = new Point(22, 51);
@@ -114,34 +114,35 @@
             btnSignOut.UseVisualStyleBackColor = true;
             btnSignOut.Click += btnSignOut_Click;
             // 
-            // iconButton3
+            // btnDevices
             // 
-            iconButton3.IconChar = FontAwesome.Sharp.IconChar.Computer;
-            iconButton3.IconColor = Color.Black;
-            iconButton3.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconButton3.ImageAlign = ContentAlignment.MiddleLeft;
-            iconButton3.Location = new Point(27, 314);
-            iconButton3.Name = "iconButton3";
-            iconButton3.Size = new Size(141, 42);
-            iconButton3.TabIndex = 2;
-            iconButton3.Text = "Sprzęt";
-            iconButton3.TextAlign = ContentAlignment.MiddleRight;
-            iconButton3.UseVisualStyleBackColor = true;
+            btnDevices.IconChar = FontAwesome.Sharp.IconChar.Computer;
+            btnDevices.IconColor = Color.Black;
+            btnDevices.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnDevices.ImageAlign = ContentAlignment.MiddleLeft;
+            btnDevices.Location = new Point(27, 314);
+            btnDevices.Name = "btnDevices";
+            btnDevices.Size = new Size(141, 42);
+            btnDevices.TabIndex = 2;
+            btnDevices.Text = "Sprzęt";
+            btnDevices.TextAlign = ContentAlignment.MiddleRight;
+            btnDevices.UseVisualStyleBackColor = true;
+            btnDevices.Click += btnDevices_Click;
             // 
-            // iconButton2
+            // btnSettings
             // 
-            iconButton2.IconChar = FontAwesome.Sharp.IconChar.Gears;
-            iconButton2.IconColor = Color.Black;
-            iconButton2.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconButton2.ImageAlign = ContentAlignment.MiddleLeft;
-            iconButton2.Location = new Point(27, 380);
-            iconButton2.Name = "iconButton2";
-            iconButton2.Size = new Size(141, 40);
-            iconButton2.TabIndex = 1;
-            iconButton2.Text = "Ustawienia";
-            iconButton2.TextAlign = ContentAlignment.MiddleRight;
-            iconButton2.UseVisualStyleBackColor = true;
-            iconButton2.Click += iconButton2_Click;
+            btnSettings.IconChar = FontAwesome.Sharp.IconChar.Gears;
+            btnSettings.IconColor = Color.Black;
+            btnSettings.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnSettings.ImageAlign = ContentAlignment.MiddleLeft;
+            btnSettings.Location = new Point(27, 380);
+            btnSettings.Name = "btnSettings";
+            btnSettings.Size = new Size(141, 40);
+            btnSettings.TabIndex = 1;
+            btnSettings.Text = "Ustawienia";
+            btnSettings.TextAlign = ContentAlignment.MiddleRight;
+            btnSettings.UseVisualStyleBackColor = true;
+            btnSettings.Click += btnSettings_Click;
             // 
             // btnUsers
             // 
@@ -190,8 +191,8 @@
         #endregion
         private Label labelLogin;
         private Panel panelMenu;
-        private FontAwesome.Sharp.IconButton iconButton3;
-        private FontAwesome.Sharp.IconButton iconButton2;
+        private FontAwesome.Sharp.IconButton btnDevices;
+        private FontAwesome.Sharp.IconButton btnSettings;
         private FontAwesome.Sharp.IconButton btnUsers;
         private FontAwesome.Sharp.IconButton btnSignOut;
         private Panel panelForm;

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PAB.Forms.UserManagement;
+using PAB.Forms.DevicesManagement;
 using PAB.Models;
 using PAB.Services;
 
@@ -15,7 +16,8 @@ namespace PAB.Forms.Main
 {
     public partial class AdminForm : Form
     {
-        User user;
+        private User user;
+
         public AdminForm(User user)
         {
             this.user = user;
@@ -39,11 +41,6 @@ namespace PAB.Forms.Main
             this.Dispose();
         }
 
-        private void iconButton2_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnUsers_Click(object sender, EventArgs e)
         {
             var frm = new UsersForm();
@@ -55,7 +52,7 @@ namespace PAB.Forms.Main
             panelForm.Controls.Clear();
         }
 
-        private void OpenFormInPanel(Form frm)
+        public void OpenFormInPanel(Form frm)
         {
             frm.TopLevel = false;
             frm.FormBorderStyle = FormBorderStyle.None;
@@ -63,6 +60,18 @@ namespace PAB.Forms.Main
             panelForm.Controls.Clear();
             panelForm.Controls.Add(frm);
             frm.Show();
+        }
+
+        private void btnDevices_Click(object sender, EventArgs e)
+        {
+            var frm = new OptionSelectorForm(this);
+            OpenFormInPanel(frm);
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            var frm = new SettingsForm();
+            OpenFormInPanel(frm);
         }
     }
 }

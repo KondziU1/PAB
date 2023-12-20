@@ -28,12 +28,12 @@ namespace PAB.Forms.Main
                 }
                 if (role == "Manager")
                 {
-                    var frm = new ManagerForm();
+                    var frm = new ManagerForm(loggedUser);
                     frm.Show();
                 }
                 if (role == "Basic")
                 {
-                    var frm = new BasicUserForm();
+                    var frm = new BasicUserForm(loggedUser);
                     frm.Show();
                 }
 

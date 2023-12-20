@@ -17,4 +17,61 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Forms\DevicesManagement\AddDeviceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\DevicesManagement\SendRequestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\DevicesManagement\ReportsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\DevicesManagement\UpdateDeviceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\DevicesManagement\ReportProblemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\DevicesManagement\OptionSelectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\DevicesManagement\DevicesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\DevicesManagement\UserDevicesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\DevicesManagement\RequestsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\Main\ManagerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\Main\BasicUserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\UserManagement\ChangeLoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\UserManagement\SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\UserManagement\ChangePasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>
