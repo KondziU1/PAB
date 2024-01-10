@@ -16,9 +16,11 @@ namespace PAB.Forms.UserManagement
     public partial class EditUserForm : Form
     {
         User user;
-        public EditUserForm(User user)
+        Form parentForm;
+        public EditUserForm(User user, Form parentForm)
         {
             this.user = user;
+            this.parentForm = parentForm;
             InitializeComponent();
         }
 
@@ -66,8 +68,8 @@ namespace PAB.Forms.UserManagement
                 UserService.UpdateUser(user);
                 MessageBox.Show("Zaktualizowano użytkownika.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            var frm = Application.OpenForms.OfType<UsersForm>().FirstOrDefault();
-            frm.refresh();
+            var frm = (UsersForm)parentForm;
+            frm.LoadData();
             this.Close();
         }
 

@@ -27,13 +27,13 @@ namespace PAB.Forms.UserManagement
             dataGridView1.Columns[2].Visible = false;
 
         }
-        internal void refresh()
+        internal void LoadData()
         {
             dataGridView1.DataSource = UserService.GetAllUsers();
         }
         private void btnAddUser_Click(object sender, EventArgs e)
         {
-            var frm = new AddUserForm();
+            var frm = new AddUserForm(this);
             frm.ShowDialog();
         }
 
@@ -46,7 +46,7 @@ namespace PAB.Forms.UserManagement
             if (DialogResult == DialogResult.Yes)
             {
                 UserService.DeleteUser(user);
-                refresh();
+                LoadData();
             }
         }
         private int SelectedRowID()
@@ -64,7 +64,7 @@ namespace PAB.Forms.UserManagement
         {
             var id = SelectedRowID();
             var user = UserService.GetUserById(id);
-            var frm = new EditUserForm(user);
+            var frm = new EditUserForm(user, this);
             frm.ShowDialog();
          
         }

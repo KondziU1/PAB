@@ -15,8 +15,10 @@ namespace PAB.Forms.UserManagement
 {
     public partial class AddUserForm : Form
     {
-        public AddUserForm()
+        Form parentForm;
+        public AddUserForm(Form parentForm)
         {
+            this.parentForm = parentForm;
             InitializeComponent();
         }
 
@@ -40,8 +42,8 @@ namespace PAB.Forms.UserManagement
             {
                 UserService.AddUser(user);
                 MessageBox.Show("Dodano nowego użytkownika.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                var frm = Application.OpenForms.OfType<UsersForm>().FirstOrDefault();
-                frm.refresh();
+                var frm = (UsersForm)parentForm;
+                frm.LoadData();
                 this.Close();
             }
             else
