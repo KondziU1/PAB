@@ -49,7 +49,7 @@ namespace PAB.Forms.Main
 
         private void btnDevices_Click(object sender, EventArgs e)
         {
-            var frm = new OptionSelectorForm(this);
+            var frm = new OptionSelectorForm(this, user);
             OpenFormInPanel(frm);
         }
 

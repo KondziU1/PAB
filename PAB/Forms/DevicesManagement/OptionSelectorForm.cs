@@ -1,15 +1,18 @@
 ﻿using PAB.Forms.Main;
+using PAB.Models;
 
 namespace PAB.Forms.DevicesManagement
 {
     public partial class OptionSelectorForm : Form
     {
+        User user;
         private Form parentForm;
 
-        public OptionSelectorForm(Form parentForm)
+        public OptionSelectorForm(Form parentForm, User user)
         {
             InitializeComponent();
             this.parentForm = parentForm;
+            this.user = user;
         }
 
         internal void OpenForm(Form frm)
@@ -30,13 +33,13 @@ namespace PAB.Forms.DevicesManagement
 
         private void btnDevices_Click(object sender, EventArgs e)
         {
-            var frm = new DevicesForm(parentForm);
+            var frm = new DevicesForm(parentForm, user, this);
             OpenForm(frm);
         }
 
         private void btnEmployeeDevices_Click(object sender, EventArgs e)
         {
-            var frm = new UserDevicesForm(parentForm);
+            var frm = new UserDevicesForm(user, this);
             OpenForm(frm);
         }
     }

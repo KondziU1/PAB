@@ -42,7 +42,7 @@
             btnConfirm.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnConfirm.IconSize = 45;
             btnConfirm.ImageAlign = ContentAlignment.MiddleLeft;
-            btnConfirm.Location = new Point(143, 186);
+            btnConfirm.Location = new Point(133, 193);
             btnConfirm.Name = "btnConfirm";
             btnConfirm.Size = new Size(183, 45);
             btnConfirm.TabIndex = 13;
@@ -53,7 +53,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(143, 116);
+            label3.Location = new Point(133, 123);
             label3.Name = "label3";
             label3.Size = new Size(71, 15);
             label3.TabIndex = 12;
@@ -62,7 +62,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(143, 48);
+            label1.Location = new Point(133, 55);
             label1.Name = "label1";
             label1.Size = new Size(71, 15);
             label1.TabIndex = 10;
@@ -70,14 +70,14 @@
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(143, 134);
+            textBox3.Location = new Point(133, 141);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(183, 23);
             textBox3.TabIndex = 9;
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(143, 66);
+            textBox1.Location = new Point(133, 73);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(183, 23);
             textBox1.TabIndex = 7;
@@ -98,6 +98,7 @@
             Name = "ChangeLoginForm";
             StartPosition = FormStartPosition.CenterParent;
             Text = "ChangeLoginForm";
+            Load += ChangeLoginForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }

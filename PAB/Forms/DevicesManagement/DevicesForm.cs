@@ -1,20 +1,30 @@
 ﻿using PAB.Forms.Main;
 using PAB.Forms.UserManagement;
+using PAB.Models;
+using PAB.Services;
+using System.Windows.Navigation;
 
 namespace PAB.Forms.DevicesManagement
 {
     public partial class DevicesForm : Form
     {
         private Form parentForm;
+        private User user;
+        private List<Device> devices;
+        Form selector;
 
-        public DevicesForm(Form target)
+        public DevicesForm(Form parentForm, User user, Form selector)
         {
             InitializeComponent();
-            parentForm = target;
+            this.parentForm = parentForm;
+            this.user = user;
+            this.selector = selector;
         }
 
-        internal void refresh()
+        internal void LoadData()
         {
+            devices = DeviceService.GetAllDevices();
+            dataGridView1.DataSource = devices;
         }
 
         private int SelectedRowID()
@@ -40,6 +50,10 @@ namespace PAB.Forms.DevicesManagement
             {
                 btnSendRequest.Enabled = false;
             }
+
+            LoadData();
+            dataGridView1.Columns[4].Visible = false;
+            dataGridView1.Columns[0].Visible = false;
         }
 
         private void btnAddDevice_Click(object sender, EventArgs e)
@@ -50,21 +64,43 @@ namespace PAB.Forms.DevicesManagement
 
         private void btnUpdateDevice_Click(object sender, EventArgs e)
         {
-            var frm = new UpdateDeviceForm();
+            var id = SelectedRowID();
+            var device = DeviceService.GetDeviceById(id);
+            var frm = new EditDeviceForm(device);
             frm.ShowDialog();
         }
 
-        private void iconButton2_Click(object sender, EventArgs e)
+        private void btnBack_Click(object sender, EventArgs e)
         {
-            var frm = Application.OpenForms.OfType<OptionSelectorForm>().FirstOrDefault();
+            var frm = (OptionSelectorForm)selector;
             frm.OpenForm(frm);
             this.Close();
         }
 
         private void btnSendRequest_Click(object sender, EventArgs e)
         {
-            var frm = new SendRequestForm();
+            var id = SelectedRowID();
+            var device = DeviceService.GetDeviceById(id);
+            var userRequests = RequestService.GetAllRequests().Where(u => u.User_ID == user.Id);
+            var isRequestExist = userRequests.Where(r => r.Device_ID == device.Id).Any();
+
+            if (isRequestExist)
+            {
+                MessageBox.Show("Wniosek o ten sprzęt został już wysłany", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            var frm = new SendRequestForm(user, device);
             frm.ShowDialog();
         }
+
+        private void textBoxSearch_TextChanged(object sender, EventArgs e)
+        {
+            var text = textBoxSearch.Text.ToLower();
+            var filteredDevices = devices.Where(x => x.Name.ToLower().Contains(text)).ToList();
+            dataGridView1.DataSource = filteredDevices;
+        }
+
+
     }
 }

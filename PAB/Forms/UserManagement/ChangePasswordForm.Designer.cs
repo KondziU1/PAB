@@ -39,21 +39,21 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(145, 70);
+            textBox1.Location = new Point(135, 64);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(183, 23);
             textBox1.TabIndex = 0;
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(145, 130);
+            textBox2.Location = new Point(135, 124);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(183, 23);
             textBox2.TabIndex = 1;
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(145, 186);
+            textBox3.Location = new Point(135, 180);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(183, 23);
             textBox3.TabIndex = 2;
@@ -61,7 +61,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(145, 52);
+            label1.Location = new Point(135, 46);
             label1.Name = "label1";
             label1.Size = new Size(67, 15);
             label1.TabIndex = 3;
@@ -70,7 +70,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(145, 112);
+            label2.Location = new Point(135, 106);
             label2.Name = "label2";
             label2.Size = new Size(72, 15);
             label2.TabIndex = 4;
@@ -79,7 +79,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(145, 168);
+            label3.Location = new Point(135, 162);
             label3.Name = "label3";
             label3.Size = new Size(93, 15);
             label3.TabIndex = 5;
@@ -92,7 +92,7 @@
             btnConfirm.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnConfirm.IconSize = 45;
             btnConfirm.ImageAlign = ContentAlignment.MiddleLeft;
-            btnConfirm.Location = new Point(145, 240);
+            btnConfirm.Location = new Point(135, 234);
             btnConfirm.Name = "btnConfirm";
             btnConfirm.Size = new Size(183, 45);
             btnConfirm.TabIndex = 6;

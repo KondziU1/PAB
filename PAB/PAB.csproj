@@ -21,16 +21,22 @@
     <Compile Update="Forms\DevicesManagement\AddDeviceForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Forms\DevicesManagement\SendRequestForm.cs">
+    <Compile Update="Forms\ReportManagaement\ReportDetailsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Forms\DevicesManagement\ReportsForm.cs">
+    <Compile Update="Forms\RequestManagement\RequestDetailsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Forms\DevicesManagement\UpdateDeviceForm.cs">
+    <Compile Update="Forms\RequestManagement\SendRequestForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Forms\DevicesManagement\ReportProblemForm.cs">
+    <Compile Update="Forms\ReportManagaement\ReportsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\DevicesManagement\EditDeviceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\ReportManagaement\ReportProblemForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Forms\DevicesManagement\OptionSelectorForm.cs">
@@ -42,7 +48,7 @@
     <Compile Update="Forms\DevicesManagement\UserDevicesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Forms\DevicesManagement\RequestsForm.cs">
+    <Compile Update="Forms\RequestManagement\RequestsForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Forms\Main\ManagerForm.cs">

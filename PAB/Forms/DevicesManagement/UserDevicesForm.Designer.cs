@@ -100,7 +100,7 @@
             btnBack.IconColor = Color.Black;
             btnBack.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnBack.IconSize = 40;
-            btnBack.Location = new Point(897, 12);
+            btnBack.Location = new Point(897, 2);
             btnBack.Name = "btnBack";
             btnBack.Size = new Size(49, 44);
             btnBack.TabIndex = 9;

@@ -16,7 +16,7 @@ namespace PAB.Forms.Main
 {
     public partial class BasicUserForm : Form
     {
-        User user;
+        public User user;
         public BasicUserForm(User user)
         {
             this.user = user;
@@ -64,7 +64,7 @@ namespace PAB.Forms.Main
 
         private void btnDevices_Click(object sender, EventArgs e)
         {
-            var frm = new OptionSelectorForm(this);
+            var frm = new OptionSelectorForm(this,user);
             OpenFormInPanel(frm);
         }
         private void btnSettings_Click(object sender, EventArgs e)

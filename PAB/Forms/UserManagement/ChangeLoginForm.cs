@@ -18,5 +18,10 @@ namespace PAB.Forms.UserManagement
         {
             InitializeComponent();
         }
+
+        private void ChangeLoginForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

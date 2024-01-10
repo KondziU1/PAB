@@ -32,7 +32,7 @@
             rtxtReason = new RichTextBox();
             label1 = new Label();
             labelNote = new Label();
-            textBoxLogin = new TextBox();
+            txtDevice = new TextBox();
             SuspendLayout();
             // 
             // btnSendRequest
@@ -48,6 +48,7 @@
             btnSendRequest.TabIndex = 16;
             btnSendRequest.Text = "Wyślij wniosek";
             btnSendRequest.UseVisualStyleBackColor = true;
+            btnSendRequest.Click += btnSendRequest_Click;
             // 
             // rtxtReason
             // 
@@ -75,13 +76,13 @@
             labelNote.TabIndex = 20;
             labelNote.Text = "Powód:";
             // 
-            // textBoxLogin
+            // txtDevice
             // 
-            textBoxLogin.Enabled = false;
-            textBoxLogin.Location = new Point(59, 48);
-            textBoxLogin.Name = "textBoxLogin";
-            textBoxLogin.Size = new Size(184, 23);
-            textBoxLogin.TabIndex = 21;
+            txtDevice.Enabled = false;
+            txtDevice.Location = new Point(59, 48);
+            txtDevice.Name = "txtDevice";
+            txtDevice.Size = new Size(184, 23);
+            txtDevice.TabIndex = 21;
             // 
             // SendRequestForm
             // 
@@ -89,7 +90,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(311, 297);
-            Controls.Add(textBoxLogin);
+            Controls.Add(txtDevice);
             Controls.Add(labelNote);
             Controls.Add(label1);
             Controls.Add(rtxtReason);
@@ -98,6 +99,7 @@
             MaximizeBox = false;
             Name = "SendRequestForm";
             StartPosition = FormStartPosition.CenterScreen;
+            Load += SendRequestForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -107,6 +109,6 @@
         private RichTextBox rtxtReason;
         private Label label1;
         private Label labelNote;
-        private TextBox textBoxLogin;
+        private TextBox txtDevice;
     }
 }

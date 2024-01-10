@@ -30,9 +30,11 @@
         {
             btnSendReport = new FontAwesome.Sharp.IconButton();
             cbRodzajProblemu = new ComboBox();
-            rtxtNote = new RichTextBox();
+            rtxtDescription = new RichTextBox();
             label1 = new Label();
             labelNote = new Label();
+            txtDevice = new TextBox();
+            label2 = new Label();
             SuspendLayout();
             // 
             // btnSendReport
@@ -42,33 +44,35 @@
             btnSendReport.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnSendReport.IconSize = 35;
             btnSendReport.ImageAlign = ContentAlignment.MiddleLeft;
-            btnSendReport.Location = new Point(47, 228);
+            btnSendReport.Location = new Point(50, 280);
             btnSendReport.Name = "btnSendReport";
             btnSendReport.Size = new Size(210, 38);
             btnSendReport.TabIndex = 16;
             btnSendReport.Text = "Wyślij zgłoszenie";
             btnSendReport.UseVisualStyleBackColor = true;
+            btnSendReport.Click += btnSendReport_Click;
             // 
             // cbRodzajProblemu
             // 
             cbRodzajProblemu.FormattingEnabled = true;
-            cbRodzajProblemu.Location = new Point(56, 55);
+            cbRodzajProblemu.Location = new Point(59, 107);
             cbRodzajProblemu.Name = "cbRodzajProblemu";
             cbRodzajProblemu.Size = new Size(188, 23);
             cbRodzajProblemu.TabIndex = 17;
+            cbRodzajProblemu.SelectedIndexChanged += cbRodzajProblemu_SelectedIndexChanged;
             // 
-            // rtxtNote
+            // rtxtDescription
             // 
-            rtxtNote.Location = new Point(12, 113);
-            rtxtNote.Name = "rtxtNote";
-            rtxtNote.Size = new Size(287, 96);
-            rtxtNote.TabIndex = 18;
-            rtxtNote.Text = "(opcjonalne)";
+            rtxtDescription.Location = new Point(15, 165);
+            rtxtDescription.Name = "rtxtDescription";
+            rtxtDescription.Size = new Size(287, 96);
+            rtxtDescription.TabIndex = 18;
+            rtxtDescription.Text = "(opcjonalnie)";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(100, 37);
+            label1.Location = new Point(101, 89);
             label1.Name = "label1";
             label1.Size = new Size(100, 15);
             label1.TabIndex = 19;
@@ -77,27 +81,47 @@
             // labelNote
             // 
             labelNote.AutoSize = true;
-            labelNote.Location = new Point(126, 95);
+            labelNote.Location = new Point(125, 147);
             labelNote.Name = "labelNote";
             labelNote.Size = new Size(34, 15);
             labelNote.TabIndex = 20;
             labelNote.Text = "Opis:";
+            // 
+            // txtDevice
+            // 
+            txtDevice.Enabled = false;
+            txtDevice.Location = new Point(59, 46);
+            txtDevice.Name = "txtDevice";
+            txtDevice.Size = new Size(188, 23);
+            txtDevice.TabIndex = 21;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(111, 28);
+            label2.Name = "label2";
+            label2.Size = new Size(67, 15);
+            label2.TabIndex = 22;
+            label2.Text = "Urządzenie:";
             // 
             // ReportProblemForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(311, 297);
+            ClientSize = new Size(311, 332);
+            Controls.Add(label2);
+            Controls.Add(txtDevice);
             Controls.Add(labelNote);
             Controls.Add(label1);
-            Controls.Add(rtxtNote);
+            Controls.Add(rtxtDescription);
             Controls.Add(cbRodzajProblemu);
             Controls.Add(btnSendReport);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "ReportProblemForm";
             StartPosition = FormStartPosition.CenterScreen;
+            Load += ReportProblemForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -105,8 +129,10 @@
         #endregion
         private FontAwesome.Sharp.IconButton btnSendReport;
         private ComboBox cbRodzajProblemu;
-        private RichTextBox rtxtNote;
+        private RichTextBox rtxtDescription;
         private Label label1;
         private Label labelNote;
+        private TextBox txtDevice;
+        private Label label2;
     }
 }

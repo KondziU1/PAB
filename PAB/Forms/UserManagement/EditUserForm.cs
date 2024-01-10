@@ -66,7 +66,7 @@ namespace PAB.Forms.UserManagement
                 UserService.UpdateUser(user);
                 MessageBox.Show("Zaktualizowano użytkownika.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            var frm = Application.OpenForms.OfType<RequestsForm>().FirstOrDefault();
+            var frm = Application.OpenForms.OfType<UsersForm>().FirstOrDefault();
             frm.refresh();
             this.Close();
         }

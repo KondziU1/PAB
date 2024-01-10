@@ -40,7 +40,7 @@ namespace PAB.Forms.UserManagement
             {
                 UserService.AddUser(user);
                 MessageBox.Show("Dodano nowego użytkownika.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                var frm = Application.OpenForms.OfType<RequestsForm>().FirstOrDefault();
+                var frm = Application.OpenForms.OfType<UsersForm>().FirstOrDefault();
                 frm.refresh();
                 this.Close();
             }
