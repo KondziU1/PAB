@@ -26,6 +26,9 @@ namespace PAB.Forms.Main
         private void Form1_Load(object sender, EventArgs e)
         {
             labelLogin.Text = user.Login;
+
+            var frm = new HomeForm(user);
+            OpenFormInPanel(frm);
         }
 
 
@@ -44,7 +47,8 @@ namespace PAB.Forms.Main
 
         private void btnHome_Click(object sender, EventArgs e)
         {
-            panelForm.Controls.Clear();
+            var frm = new HomeForm(user);
+            OpenFormInPanel(frm);
         }
 
         public void OpenFormInPanel(Form frm)

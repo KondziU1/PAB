@@ -23,7 +23,7 @@ namespace PAB.Forms.DevicesManagement
 
         internal void LoadData()
         {
-            devices = DeviceService.GetAllDevices();
+            devices = DeviceService.GetAllDevices().Where(d => d.Quantity >0).ToList();
             dataGridView1.DataSource = devices;
         }
 

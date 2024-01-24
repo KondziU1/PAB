@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using PAB.Models;
 using PAB.Services;
+using Microsoft.Identity.Client;
 
 namespace PAB.Forms.UserManagement
 {
@@ -33,6 +34,29 @@ namespace PAB.Forms.UserManagement
             cbRodzajProblemu.DisplayMember = "Name";
         }
 
+        private void Notify(Report report)
+        {
+            var user = UserService.GetUserById(report.User_ID);
+
+            if (user.Employee_ID == null)
+            {
+                return;
+            }
+
+            var employee = EmployeeService.GetEmployeeById((int)user.Employee_ID);
+
+            string message = $"Nowe zgłoszenie od {employee.FullName}({user.Login})";
+
+            if (user.Manager_ID == null)
+            {
+                return;
+            }
+
+            var manager = UserService.GetUserById((int)user.Manager_ID);
+
+            NotificationService.SendNotificationToUser(message, manager);
+        }
+
         private void btnSendReport_Click(object sender, EventArgs e)
         {
             var description = rtxtDescription.Text;
@@ -40,8 +64,9 @@ namespace PAB.Forms.UserManagement
             var result = MessageBox.Show("Czy na pewno chcesz wysłać zgłoszenie?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                var report = new Report(user.Id, description, problemId, device.Id, "Wysłane");
+                var report = new Report(user.Id, description, problemId, device.Id, user.Manager_ID, "Wysłane");
                 ReportService.AddReport(report);
+                Notify(report);
                 this.Close();
             }
             else

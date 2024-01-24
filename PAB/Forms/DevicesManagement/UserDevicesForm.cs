@@ -8,7 +8,8 @@ namespace PAB.Forms.DevicesManagement
     public partial class UserDevicesForm : Form
     {
         private User user;
-        Form selector;
+        private Form selector;
+
         public UserDevicesForm(User user, Form selector)
         {
             InitializeComponent();
@@ -29,7 +30,7 @@ namespace PAB.Forms.DevicesManagement
 
         private void LoadData()
         {
-            var userDevices = UserService.GetUserDevices(user).Select(d => new {ID = d.Id, Name = d.Name, Category = DeviceService.GetDeviceCategoryById(d.Category_ID).Name}).ToList();
+            var userDevices = UserService.GetUserDevices(user).Select(d => new { ID = d.Id, Name = d.Name, Category = DeviceService.GetDeviceCategoryById(d.Category_ID).Name }).ToList();
             dataGridView1.DataSource = userDevices;
             dataGridView1.Columns[0].Visible = false;
         }
@@ -52,8 +53,11 @@ namespace PAB.Forms.DevicesManagement
         {
             var deviceID = SelectedRowID();
             Device device = DeviceService.GetDeviceById(deviceID);
-            var frm = new ReportProblemForm(user, device);
-            frm.ShowDialog();
+            if (device != null)
+            {
+                var frm = new ReportProblemForm(user, device);
+                frm.ShowDialog();
+            }
         }
 
         private void btnBack_Click(object sender, EventArgs e)

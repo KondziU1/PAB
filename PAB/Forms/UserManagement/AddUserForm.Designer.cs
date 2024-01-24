@@ -35,6 +35,10 @@
             label4 = new Label();
             btnAddUser = new FontAwesome.Sharp.IconButton();
             comboBoxRole = new ComboBox();
+            cbEmployee = new ComboBox();
+            label1 = new Label();
+            cbManager = new ComboBox();
+            label5 = new Label();
             SuspendLayout();
             // 
             // textBoxPassword
@@ -85,7 +89,7 @@
             btnAddUser.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnAddUser.IconSize = 30;
             btnAddUser.ImageAlign = ContentAlignment.MiddleLeft;
-            btnAddUser.Location = new Point(52, 176);
+            btnAddUser.Location = new Point(52, 251);
             btnAddUser.Name = "btnAddUser";
             btnAddUser.Size = new Size(210, 38);
             btnAddUser.TabIndex = 8;
@@ -101,13 +105,55 @@
             comboBoxRole.Name = "comboBoxRole";
             comboBoxRole.Size = new Size(184, 23);
             comboBoxRole.TabIndex = 10;
+            comboBoxRole.SelectedIndexChanged += comboBoxRole_SelectedIndexChanged;
+            // 
+            // cbEmployee
+            // 
+            cbEmployee.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbEmployee.FormattingEnabled = true;
+            cbEmployee.Location = new Point(78, 173);
+            cbEmployee.Name = "cbEmployee";
+            cbEmployee.Size = new Size(184, 23);
+            cbEmployee.TabIndex = 12;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(7, 176);
+            label1.Name = "label1";
+            label1.Size = new Size(65, 15);
+            label1.TabIndex = 11;
+            label1.Text = "Pracownik:";
+            // 
+            // cbManager
+            // 
+            cbManager.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbManager.Enabled = false;
+            cbManager.FormattingEnabled = true;
+            cbManager.Location = new Point(78, 212);
+            cbManager.Name = "cbManager";
+            cbManager.Size = new Size(184, 23);
+            cbManager.TabIndex = 14;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(7, 215);
+            label5.Name = "label5";
+            label5.Size = new Size(67, 15);
+            label5.TabIndex = 13;
+            label5.Text = "Przełożony:";
             // 
             // AddUserForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(311, 251);
+            ClientSize = new Size(311, 301);
+            Controls.Add(cbManager);
+            Controls.Add(label5);
+            Controls.Add(cbEmployee);
+            Controls.Add(label1);
             Controls.Add(comboBoxRole);
             Controls.Add(btnAddUser);
             Controls.Add(label4);
@@ -132,5 +178,9 @@
         private Label label4;
         private FontAwesome.Sharp.IconButton btnAddUser;
         private ComboBox comboBoxRole;
+        private ComboBox cbEmployee;
+        private Label label1;
+        private ComboBox cbManager;
+        private Label label5;
     }
 }

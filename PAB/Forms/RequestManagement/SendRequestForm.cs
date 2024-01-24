@@ -25,11 +25,32 @@ namespace PAB.Forms.UserManagement
             this.device = device;
             InitializeComponent();
         }
+        private void Notify(Request request)
+        {
+            var user = UserService.GetUserById(request.User_ID);
 
+            if (user.Employee_ID == null)
+            {
+                return;
+            }
+
+            var employee = EmployeeService.GetEmployeeById((int)user.Employee_ID);
+
+            string message = $"Nowy wniosek od {employee.FullName}({user.Login})";
+
+            if(user.Manager_ID == null)
+            {
+                return;
+            }
+
+            var manager = UserService.GetUserById((int)user.Manager_ID);
+
+            NotificationService.SendNotificationToUser(message, manager);
+        }
         private void btnSendRequest_Click(object sender, EventArgs e)
         {
             var reason = rtxtReason.Text;
-            var request = new Request(user.Id, device.Id, reason, "Wysłany");
+            var request = new Request(user.Id, device.Id, reason, user.Manager_ID, "Wysłany");
             if (string.IsNullOrWhiteSpace(reason))
             {
                 MessageBox.Show("Wszystkie pola są wymagane!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -41,6 +62,7 @@ namespace PAB.Forms.UserManagement
             if (result == DialogResult.Yes)
             {
                 RequestService.AddRequest(request);
+                Notify(request);
                 this.Close();
             }
             else

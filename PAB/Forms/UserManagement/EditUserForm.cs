@@ -1,22 +1,15 @@
-﻿using Microsoft.VisualBasic.Logging;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using PAB.Models;
+﻿using PAB.Models;
 using PAB.Services;
+using System.Data;
 
 namespace PAB.Forms.UserManagement
 {
     public partial class EditUserForm : Form
     {
-        User user;
-        Form parentForm;
+        private User user;
+        private Form parentForm;
+        private ManagerData manager;
+
         public EditUserForm(User user, Form parentForm)
         {
             this.user = user;
@@ -30,13 +23,46 @@ namespace PAB.Forms.UserManagement
             comboBoxRole.Items.Add("Manager");
             comboBoxRole.Items.Add("Basic");
 
+            GetManagerData().ForEach(d => cbManager.Items.Add(d));
             LoadUserData(user);
+
+            cbManager.DisplayMember = "FullName";
+            cbManager.ValueMember = "Id";
+            cbManager.SelectedItem = null;
+
+            if (user.Role == "Basic")
+            {
+                cbManager.Enabled = true;
+                manager = GetManagerData().FirstOrDefault(m => m.Id == user.Manager_ID);
+
+                if(manager != null)
+                {
+                    var item = cbManager.Items.Cast<ManagerData>().FirstOrDefault(m => m.Id == manager.Id);
+                    cbManager.SelectedItem = item;
+                }
+            }
         }
+
+        private List<ManagerData> GetManagerData()
+        {
+            var managerData = UserService.GetAllUsers()
+            .Where(u => u.Role == "Manager")
+            .Select(u => new ManagerData
+            {
+                Id = u.Id,
+                FullName = EmployeeService.GetEmployeeById((int)u.Employee_ID).FullName
+            })
+            .ToList();
+
+            return managerData;
+        }
+
         public void LoadUserData(User user)
         {
             textBoxLogin.Text = user.Login;
             comboBoxRole.SelectedItem = user.Role;
         }
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             bool anyFieldChanged = false;
@@ -63,8 +89,23 @@ namespace PAB.Forms.UserManagement
                 anyFieldChanged = true;
             }
 
+            if (manager != null && manager.Id != user.Manager_ID)
+            {
+                user.Manager_ID = manager.Id;
+                anyFieldChanged = true;
+            }
+
+            if (user.Role == "Basic" && cbManager.SelectedItem == null)
+            {
+                MessageBox.Show("Proszę o wybór przełożonego!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (anyFieldChanged)
             {
+                if (user.Role != "Basic")
+                    user.Manager_ID = null;
+
                 UserService.UpdateUser(user);
                 MessageBox.Show("Zaktualizowano użytkownika.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -73,5 +114,30 @@ namespace PAB.Forms.UserManagement
             this.Close();
         }
 
+        private void comboBoxRole_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxRole.Text == "Basic")
+            {
+                cbManager.Enabled = true;
+
+                var managerToRemove = GetManagerData().FirstOrDefault(m => m.Id == user.Id);
+
+                if (managerToRemove != null)
+                {
+                    var itemToRemove = cbManager.Items.Cast<ManagerData>().FirstOrDefault(m => m.Id == managerToRemove.Id);
+                    cbManager.Items.Remove(itemToRemove);
+                }
+            }
+            else
+            {
+                cbManager.SelectedItem = null;
+                cbManager.Enabled = false;
+            }
+        }
+
+        private void cbManager_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            manager = (ManagerData)cbManager.SelectedItem;
+        }
     }
 }

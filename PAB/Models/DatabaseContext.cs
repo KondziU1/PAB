@@ -18,6 +18,8 @@ namespace PAB.Models
         public DbSet<Report> Reports { get; set; }
         public DbSet<ProblemType> ProblemTypes { get; set; }
         public DbSet<Request> Requests { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Employee> Employees { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var config = new ConfigurationBuilder().AddUserSecrets<DatabaseContext>().Build();

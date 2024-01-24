@@ -21,6 +21,9 @@
     <Compile Update="Forms\DevicesManagement\AddDeviceForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\Main\HomeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\ReportManagaement\ReportDetailsForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -4,10 +4,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PAB.Forms.UserManagement;
+using PAB.Models;
 using PAB.Services;
 
 namespace PAB.Forms.UserManagement
@@ -21,16 +23,33 @@ namespace PAB.Forms.UserManagement
 
         private void UsersForm_Load(object sender, EventArgs e)
         {
-    
-            dataGridView1.DataSource = UserService.GetAllUsers();
-            dataGridView1.Columns[0].Visible = false;
-            dataGridView1.Columns[2].Visible = false;
-
+            LoadData();
         }
+
         internal void LoadData()
         {
-            dataGridView1.DataSource = UserService.GetAllUsers();
+            var users = UserService.GetAllUsers();
+            var employees = EmployeeService.GetAllEmployees();
+
+            //var userData = users
+            //    .Select(u =>
+            //    new { ID = u.Id,
+            //        Login = u.Login,
+            //        Role = u.Role,
+            //        FullName = employees.FirstOrDefault(e => e.Id == u.Employee_ID)?.FullName ?? "-",
+            //        Room = employees.FirstOrDefault(e => e.Id == u.Employee_ID)?.RoomNumber.ToString() ?? "-"
+            //    })
+            //    .ToList();
+
+            var userData = employees.Join(users,
+                        employee => employee.Id,
+                        user => user.Employee_ID,
+                        (employee, user) => new { ID = user.Id, Login = user.Login, Role = user.Role, FullName = employee.FullName, Room = employee.RoomNumber });
+
+            dataGridView1.DataSource = userData.ToList();
+            dataGridView1.Columns[0].Visible = false;
         }
+
         private void btnAddUser_Click(object sender, EventArgs e)
         {
             var frm = new AddUserForm(this);
@@ -49,6 +68,7 @@ namespace PAB.Forms.UserManagement
                 LoadData();
             }
         }
+
         private int SelectedRowID()
         {
             if (dataGridView1.SelectedRows.Count > 0)
@@ -66,7 +86,6 @@ namespace PAB.Forms.UserManagement
             var user = UserService.GetUserById(id);
             var frm = new EditUserForm(user, this);
             frm.ShowDialog();
-         
         }
     }
 }

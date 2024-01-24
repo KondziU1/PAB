@@ -15,7 +15,8 @@ namespace PAB.Forms.UserManagement
 {
     public partial class AddUserForm : Form
     {
-        Form parentForm;
+        private Form parentForm;
+
         public AddUserForm(Form parentForm)
         {
             this.parentForm = parentForm;
@@ -27,10 +28,17 @@ namespace PAB.Forms.UserManagement
             var login = textBoxLogin.Text;
             var password = textBoxPassword.Text;
             var role = comboBoxRole.Text;
+            var employee = cbEmployee.SelectedItem as Employee;
+            var manager = cbManager.Text;
 
-            if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(role))
+            if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(role) || employee == null)
             {
                 MessageBox.Show("Wszystkie pola są wymagane!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(manager) && role == "Basic")
+            {
+                MessageBox.Show("Proszę o wybór przełożonego!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -40,6 +48,8 @@ namespace PAB.Forms.UserManagement
 
             if (!isUserExists)
             {
+                user.Employee_ID = employee.Id;
+                user.Manager_ID = (int?)cbManager.SelectedValue;
                 UserService.AddUser(user);
                 MessageBox.Show("Dodano nowego użytkownika.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 var frm = (UsersForm)parentForm;
@@ -52,12 +62,41 @@ namespace PAB.Forms.UserManagement
             }
         }
 
-
         private void AddUserForm_Load(object sender, EventArgs e)
         {
             comboBoxRole.Items.Add("Admin");
             comboBoxRole.Items.Add("Manager");
             comboBoxRole.Items.Add("Basic");
+
+            cbEmployee.DataSource = EmployeeService.GetEmployeesWithoutUser();
+            cbEmployee.DisplayMember = "FullName";
+            cbEmployee.SelectedItem = null;
+
+            cbManager.DataSource = UserService.GetAllUsers()
+            .Where(u => u.Role == "Manager")
+            .Select(u => new
+            {
+                Id = u.Id,
+                FullName = EmployeeService.GetEmployeeById((int)u.Employee_ID).FullName
+            })
+            .ToList();
+
+            cbManager.DisplayMember = "FullName";
+            cbManager.ValueMember = "Id";
+            cbManager.SelectedItem = null;
+        }
+
+        private void comboBoxRole_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxRole.Text == "Basic")
+            {
+                cbManager.Enabled = true;
+            }
+            else
+            {
+                cbManager.SelectedItem = null;
+                cbManager.Enabled = false;
+            }
         }
     }
 }

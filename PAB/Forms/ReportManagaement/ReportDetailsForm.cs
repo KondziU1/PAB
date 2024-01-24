@@ -17,8 +17,6 @@ namespace PAB.Forms.UserManagement
             InitializeComponent();
         }
 
-
-
         private void ReportDetailsForm_Load(object sender, EventArgs e)
         {
             comboBox1.Items.Add("Zrealizowane");
@@ -34,15 +32,26 @@ namespace PAB.Forms.UserManagement
             txtDevice.Text = device.Name;
             txtProblem.Text = problem.Name;
             rtxtReason.Text = report.Description;
+        }
 
+        private void Notify()
+        {
+            var user = UserService.GetUserById(report.User_ID);
+            var device = DeviceService.GetDeviceById(report.Device_ID);
+
+            string message = $"Zgłoszenie urządzenia: {device.Name} {(report.Status == "W realizacji" ? "jest" : "zostało")} {report.Status}";
+
+            NotificationService.SendNotificationToUser(message, user);
         }
 
         private void btnChangeStatus_Click(object sender, EventArgs e)
         {
             report.Status = comboBox1.Text;
             ReportService.UpdateReport(report);
+
             var frm = (ReportsForm)parentForm;
             frm.LoadData();
+            Notify();
         }
     }
 }

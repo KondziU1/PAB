@@ -6,14 +6,16 @@ namespace PAB.Forms.UserManagement
 {
     public partial class RequestsForm : Form
     {
-        public RequestsForm()
+        User user;
+        public RequestsForm(User user)
         {
+            this.user = user;
             InitializeComponent();
         }
 
         internal void LoadData()
         {
-            var requests = RequestService.GetAllRequests().Where(x => x.Status == "Wysłany" || x.Status == "Otworzony").ToList();
+            var requests = RequestService.GetAllRequests().Where(x => (x.Status == "Wysłany" || x.Status == "Otworzony") && x.Manager_id == user.Id).ToList();
             dataGridView1.DataSource = requests;
         }
 
@@ -37,14 +39,28 @@ namespace PAB.Forms.UserManagement
             dataGridView1.Columns[4].Visible = false;
         }
 
+        private void Notify(Request request)
+        {
+            var user = UserService.GetUserById(request.User_ID);
+            var device = DeviceService.GetDeviceById(request.Device_ID);
+
+            string message = $"Wniosek o urządzenie: {device.Name} został {request.Status}";
+            NotificationService.SendNotificationToUser(message, user);
+        }
+
         private void btnShowRequest_Click(object sender, EventArgs e)
         {
             var request = GetSelectedRequest();
 
             if (request != null)
             {
-                request.Status = "Otworzony";
-                RequestService.UpdateRequest(request);
+                if (request.Status == "Wysłany")
+                {
+                    request.Status = "Otworzony";
+                    RequestService.UpdateRequest(request);
+
+                    Notify(request);
+                }
 
                 var frm = new RequestDetailsForm(request, this);
                 frm.ShowDialog();
