@@ -25,23 +25,17 @@ namespace PAB.Forms.UserManagement
 
             comboBox1.Text = report.Status;
 
-            var user = UserService.GetUserById(report.User_ID);
-            var device = DeviceService.GetDeviceById((report.Device_ID));
-            var problem = ReportService.GetProblemTypeById(report.ProblemType_ID);
-            txtApplicant.Text = user.Login;
-            txtDevice.Text = device.Name;
-            txtProblem.Text = problem.Name;
+            txtApplicant.Text = report.User.Login;
+            txtDevice.Text = report.Device.Name;
+            txtProblem.Text = report.ProblemType.Name;
             rtxtReason.Text = report.Description;
         }
 
         private void Notify()
         {
-            var user = UserService.GetUserById(report.User_ID);
-            var device = DeviceService.GetDeviceById(report.Device_ID);
+            string message = $"Zgłoszenie urządzenia: {report.Device.Name} {(report.Status == "W realizacji" ? "jest" : "zostało")} {report.Status}";
 
-            string message = $"Zgłoszenie urządzenia: {device.Name} {(report.Status == "W realizacji" ? "jest" : "zostało")} {report.Status}";
-
-            NotificationService.SendNotificationToUser(message, user);
+            NotificationService.SendNotificationToUser(message, report.User);
         }
 
         private void btnChangeStatus_Click(object sender, EventArgs e)

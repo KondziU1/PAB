@@ -2,7 +2,8 @@
 using PAB.Forms.UserManagement;
 using PAB.Models;
 using PAB.Services;
-using System.Windows.Navigation;
+using System.Threading;
+using System.Xml.Serialization;
 
 namespace PAB.Forms.DevicesManagement
 {
@@ -11,7 +12,7 @@ namespace PAB.Forms.DevicesManagement
         private Form parentForm;
         private User user;
         private List<Device> devices;
-        Form selector;
+        private Form selector;
 
         public DevicesForm(Form parentForm, User user, Form selector)
         {
@@ -23,8 +24,19 @@ namespace PAB.Forms.DevicesManagement
 
         internal void LoadData()
         {
-            devices = DeviceService.GetAllDevices().Where(d => d.Quantity >0).ToList();
-            dataGridView1.DataSource = devices;
+            devices = DeviceService.GetAllDevices();
+
+            if (devices != null)
+            {
+                if (parentForm is not AdminForm adminForm)
+                    devices = devices.Where(d => d.Quantity > 0).ToList();
+
+                dataGridView1.DataSource = devices;
+            }
+            else
+            {
+                MessageBox.Show("Błąd podczas pobierania urządzeń.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private int SelectedRowID()
@@ -44,11 +56,22 @@ namespace PAB.Forms.DevicesManagement
             {
                 btnAddDevice.Visible = true;
                 btnUpdateDevice.Visible = true;
-                btnSendRequest.Enabled = false;
             }
-            else if (parentForm is ManagerForm managerForm)
+
+            if (parentForm is not BasicUserForm basicUserForm)
             {
-                btnSendRequest.Enabled = false;
+                btnPerformAction.IconChar = FontAwesome.Sharp.IconChar.Link;
+                btnPerformAction.Text = "Przypisz urządzenie";
+            }
+            else
+            {
+                btnPerformAction.IconChar = FontAwesome.Sharp.IconChar.PaperPlane;
+                btnPerformAction.Text = "Wyślij wniosek o sprzęt";
+
+                if (user.ManagerId == null)
+                {
+                    btnPerformAction.Enabled = false;
+                }
             }
 
             LoadData();
@@ -66,8 +89,11 @@ namespace PAB.Forms.DevicesManagement
         {
             var id = SelectedRowID();
             var device = DeviceService.GetDeviceById(id);
-            var frm = new EditDeviceForm(device);
-            frm.ShowDialog();
+            if (device != null)
+            {
+                var frm = new EditDeviceForm(device);
+                frm.ShowDialog();
+            }
         }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -77,12 +103,15 @@ namespace PAB.Forms.DevicesManagement
             this.Close();
         }
 
-        private void btnSendRequest_Click(object sender, EventArgs e)
+        private void SendRequest()
         {
             var id = SelectedRowID();
             var device = DeviceService.GetDeviceById(id);
-            var userRequests = RequestService.GetAllRequests().Where(u => u.User_ID == user.Id);
-            var isRequestExist = userRequests.Where(r => r.Device_ID == device.Id).Any();
+
+            if (device == null) { return; }
+
+            var userRequests = RequestService.GetAllRequests().Where(u => u.UserId == user.Id);
+            var isRequestExist = userRequests.Where(r => r.DeviceId == device.Id && r.Status == "Wysłany").Any();
 
             if (isRequestExist)
             {
@@ -94,6 +123,21 @@ namespace PAB.Forms.DevicesManagement
             frm.ShowDialog();
         }
 
+        private void AssignDevice()
+        {
+            var id = SelectedRowID();
+            var device = DeviceService.GetDeviceById(id);
+
+            if (device == null) { return; }
+
+            var frm = new AssignDeviceForm(device, user);
+            frm.ShowDialog();
+        }
+
+        private void btnSendRequest_Click(object sender, EventArgs e)
+        {
+        }
+
         private void textBoxSearch_TextChanged(object sender, EventArgs e)
         {
             var text = textBoxSearch.Text.ToLower();
@@ -101,6 +145,16 @@ namespace PAB.Forms.DevicesManagement
             dataGridView1.DataSource = filteredDevices;
         }
 
-
+        private void btnPerformAction_Click(object sender, EventArgs e)
+        {
+            if (parentForm is BasicUserForm)
+            {
+                SendRequest();
+            }
+            else
+            {
+                AssignDevice();
+            }
+        }
     }
 }

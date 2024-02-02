@@ -75,6 +75,7 @@
             Name = "OptionSelectorForm";
             StartPosition = FormStartPosition.CenterParent;
             Text = "OptionSelectorForm";
+            Load += OptionSelectorForm_Load;
             ResumeLayout(false);
         }
 

@@ -1,4 +1,5 @@
-﻿using PAB.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using PAB.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace PAB.Services
             {
                 using (var context = new DatabaseContext())
                 {
-                    var reports = context.Reports.ToList();
+                    var reports = context.Reports.Include(r => r.User).Include(r => r.Device).Include(r => r.ProblemType).ToList();
                     return reports;
                 }
             }

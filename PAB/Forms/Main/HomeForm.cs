@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
-using Microsoft.Extensions.Configuration.UserSecrets;
-using PAB.Forms.UserManagement;
-using PAB.Models;
+﻿using PAB.Models;
 using PAB.Services;
 
 namespace PAB.Forms.UserManagement
@@ -24,7 +12,8 @@ namespace PAB.Forms.UserManagement
             this.user = user;
             InitializeComponent();
         }
-        void LoadData()
+
+        private void LoadData()
         {
             dataGridView1.Rows.Clear();
             var notifications = NotificationService.GetUserNotifications(user);
@@ -34,6 +23,7 @@ namespace PAB.Forms.UserManagement
                 notifications.ForEach(n => dataGridView1.Rows.Add(n.Id, n.Message, "X"));
             }
         }
+
         private void HomeForm_Load(object sender, EventArgs e)
         {
             LoadData();
@@ -45,9 +35,11 @@ namespace PAB.Forms.UserManagement
             {
                 var id = (int)dataGridView1.Rows[e.RowIndex].Cells["ID"].Value;
                 var notification = NotificationService.GetNotificationByID(id);
-
-                NotificationService.DeleteNotification(notification);
-                LoadData();
+                if (notification != null)
+                {
+                    NotificationService.DeleteNotification(notification);
+                    LoadData();
+                }
             }
         }
     }

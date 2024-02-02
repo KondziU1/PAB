@@ -6,7 +6,8 @@ namespace PAB.Forms.UserManagement
 {
     public partial class RequestsForm : Form
     {
-        User user;
+        private User user;
+
         public RequestsForm(User user)
         {
             this.user = user;
@@ -15,7 +16,7 @@ namespace PAB.Forms.UserManagement
 
         internal void LoadData()
         {
-            var requests = RequestService.GetAllRequests().Where(x => (x.Status == "Wysłany" || x.Status == "Otworzony") && x.Manager_id == user.Id).ToList();
+            var requests = RequestService.GetAllRequests().Where(x => (x.Status == "Wysłany" || x.Status == "Otworzony") && x.ManagerId == user.Id).ToList();
             dataGridView1.DataSource = requests;
         }
 
@@ -37,15 +38,14 @@ namespace PAB.Forms.UserManagement
             LoadData();
             dataGridView1.Columns[3].Visible = false;
             dataGridView1.Columns[4].Visible = false;
+            dataGridView1.Columns[6].Visible = false;
+            dataGridView1.Columns[7].Visible = false;
         }
 
         private void Notify(Request request)
         {
-            var user = UserService.GetUserById(request.User_ID);
-            var device = DeviceService.GetDeviceById(request.Device_ID);
-
-            string message = $"Wniosek o urządzenie: {device.Name} został {request.Status}";
-            NotificationService.SendNotificationToUser(message, user);
+            string message = $"Wniosek o urządzenie: {request.Device.Name} został {request.Status}";
+            NotificationService.SendNotificationToUser(message, request.User);
         }
 
         private void btnShowRequest_Click(object sender, EventArgs e)

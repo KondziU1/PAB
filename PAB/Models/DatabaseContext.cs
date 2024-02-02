@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace PAB.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var config = new ConfigurationBuilder().AddUserSecrets<DatabaseContext>().Build();
-            optionsBuilder.UseSqlServer(config["ConnectionString"]);
+            optionsBuilder.LogTo(Console.WriteLine,LogLevel.Information).UseSqlServer(config["ConnectionString"]);
         }
     }
 }

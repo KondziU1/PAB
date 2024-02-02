@@ -8,18 +8,19 @@ namespace PAB.Models
 {
     internal class Notification
     {
-        public Notification(string message, DateTime dateCreated, bool isRead, int user_id)
+        public Notification() { }
+        public Notification(string message, DateTime dateCreated, int? user_id)
         {
             Message = message;
             DateCreated = dateCreated;
-            IsRead = isRead;
-            User_id = user_id;
+            UserId = user_id;
         }
 
         public int Id { get; set; }
         public string Message { get; set; }
         public DateTime DateCreated { get; set; }
-        public bool IsRead { get; set; }
-        public int User_id { get; set; }
+        public int? UserId { get; set; }
+
+        public User user { get; set; }
     }
 }

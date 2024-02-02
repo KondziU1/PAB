@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PAB.Models
 {
-    internal class DeviceCategory
+    public class DeviceCategory
     {
         public int Id { get; set; } 
         public string Name { get; set; }

@@ -21,7 +21,7 @@ namespace PAB.Forms.UserManagement
 
             Device device = new Device(name, "Nowy", quantity, categoryId);
 
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrWhiteSpace(name))
             {
                 MessageBox.Show("Proszę wprowadzić nazwę urządzenia.", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -41,8 +41,15 @@ namespace PAB.Forms.UserManagement
 
         private void AddDeviceForm_Load(object sender, EventArgs e)
         {
-            comboBox1.DataSource = DeviceService.GetDeviceCategories();
-            comboBox1.DisplayMember = "Name";
+            var categories = DeviceService.GetDeviceCategories();
+
+            if (categories != null)
+            {
+                comboBox1.DataSource = categories;
+                comboBox1.DisplayMember = "Name";
+            }
+            else
+                MessageBox.Show("Błąd podczas pobierania kategorii urządzeń.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

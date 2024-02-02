@@ -33,9 +33,9 @@ namespace PAB.Forms.UserManagement
             if (user.Role == "Basic")
             {
                 cbManager.Enabled = true;
-                manager = GetManagerData().FirstOrDefault(m => m.Id == user.Manager_ID);
+                manager = GetManagerData().FirstOrDefault(m => m.Id == user.ManagerId);
 
-                if(manager != null)
+                if (manager != null)
                 {
                     var item = cbManager.Items.Cast<ManagerData>().FirstOrDefault(m => m.Id == manager.Id);
                     cbManager.SelectedItem = item;
@@ -50,7 +50,7 @@ namespace PAB.Forms.UserManagement
             .Select(u => new ManagerData
             {
                 Id = u.Id,
-                FullName = EmployeeService.GetEmployeeById((int)u.Employee_ID).FullName
+                FullName = u.Employee.FullName
             })
             .ToList();
 
@@ -89,9 +89,9 @@ namespace PAB.Forms.UserManagement
                 anyFieldChanged = true;
             }
 
-            if (manager != null && manager.Id != user.Manager_ID)
+            if (manager != null && manager.Id != user.ManagerId)
             {
-                user.Manager_ID = manager.Id;
+                user.ManagerId = manager.Id;
                 anyFieldChanged = true;
             }
 
@@ -104,7 +104,7 @@ namespace PAB.Forms.UserManagement
             if (anyFieldChanged)
             {
                 if (user.Role != "Basic")
-                    user.Manager_ID = null;
+                    user.ManagerId = null;
 
                 UserService.UpdateUser(user);
                 MessageBox.Show("Zaktualizowano użytkownika.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);

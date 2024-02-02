@@ -37,6 +37,7 @@
             btnSettings = new FontAwesome.Sharp.IconButton();
             btnUsers = new FontAwesome.Sharp.IconButton();
             panelForm = new Panel();
+            btnReports = new FontAwesome.Sharp.IconButton();
             panelMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox1).BeginInit();
             SuspendLayout();
@@ -56,6 +57,7 @@
             panelMenu.BackColor = Color.WhiteSmoke;
             panelMenu.BackgroundImageLayout = ImageLayout.None;
             panelMenu.BorderStyle = BorderStyle.FixedSingle;
+            panelMenu.Controls.Add(btnReports);
             panelMenu.Controls.Add(iconPictureBox1);
             panelMenu.Controls.Add(btnHome);
             panelMenu.Controls.Add(btnSignOut);
@@ -120,7 +122,7 @@
             btnDevices.IconColor = Color.Black;
             btnDevices.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnDevices.ImageAlign = ContentAlignment.MiddleLeft;
-            btnDevices.Location = new Point(27, 314);
+            btnDevices.Location = new Point(27, 317);
             btnDevices.Name = "btnDevices";
             btnDevices.Size = new Size(141, 42);
             btnDevices.TabIndex = 2;
@@ -135,7 +137,7 @@
             btnSettings.IconColor = Color.Black;
             btnSettings.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnSettings.ImageAlign = ContentAlignment.MiddleLeft;
-            btnSettings.Location = new Point(27, 380);
+            btnSettings.Location = new Point(27, 442);
             btnSettings.Name = "btnSettings";
             btnSettings.Size = new Size(141, 40);
             btnSettings.TabIndex = 1;
@@ -168,6 +170,21 @@
             panelForm.Size = new Size(974, 574);
             panelForm.TabIndex = 9;
             // 
+            // btnReports
+            // 
+            btnReports.IconChar = FontAwesome.Sharp.IconChar.ListSquares;
+            btnReports.IconColor = Color.Black;
+            btnReports.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnReports.ImageAlign = ContentAlignment.MiddleLeft;
+            btnReports.Location = new Point(27, 382);
+            btnReports.Name = "btnReports";
+            btnReports.Size = new Size(141, 42);
+            btnReports.TabIndex = 8;
+            btnReports.Text = "Zgłoszenia";
+            btnReports.TextAlign = ContentAlignment.MiddleRight;
+            btnReports.UseVisualStyleBackColor = true;
+            btnReports.Click += btnReports_Click;
+            // 
             // AdminForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -198,5 +215,6 @@
         private Panel panelForm;
         private FontAwesome.Sharp.IconButton btnHome;
         private FontAwesome.Sharp.IconPictureBox iconPictureBox1;
+        private FontAwesome.Sharp.IconButton btnReports;
     }
 }

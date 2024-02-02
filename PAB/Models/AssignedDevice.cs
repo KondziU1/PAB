@@ -6,17 +6,21 @@ using System.Threading.Tasks;
 
 namespace PAB.Models
 {
-    internal class AssignedDevice
+    public class AssignedDevice
     {
-        public AssignedDevice(int device_ID, int user_ID)
+        public AssignedDevice() { }
+        public AssignedDevice(int deviceId, int userId)
         {
-            Device_ID = device_ID;
-            User_ID = user_ID;
+            DeviceId = deviceId;
+            UserId = userId;
         }
 
         public int Id { get; set; }
-        public int Device_ID { get; set; }
-        public int User_ID { get; set; }
+        public int DeviceId { get; set; }
+        public int UserId { get; set; }
 
+        public Device Device { get; set; }
+        public User User { get; set; }
     }
+
 }

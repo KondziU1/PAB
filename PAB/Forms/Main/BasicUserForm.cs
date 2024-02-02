@@ -17,6 +17,7 @@ namespace PAB.Forms.Main
     public partial class BasicUserForm : Form
     {
         public User user;
+
         public BasicUserForm(User user)
         {
             this.user = user;
@@ -31,18 +32,11 @@ namespace PAB.Forms.Main
             OpenFormInPanel(frm);
         }
 
-
         private void btnSignOut_Click(object sender, EventArgs e)
         {
             var frm = Application.OpenForms.OfType<LoginForm>().FirstOrDefault();
             frm.Show();
             this.Dispose();
-        }
-
-        private void btnUsers_Click(object sender, EventArgs e)
-        {
-            var frm = new UsersForm();
-            OpenFormInPanel(frm);
         }
 
         private void btnHome_Click(object sender, EventArgs e)
@@ -68,12 +62,13 @@ namespace PAB.Forms.Main
 
         private void btnDevices_Click(object sender, EventArgs e)
         {
-            var frm = new OptionSelectorForm(this,user);
+            var frm = new OptionSelectorForm(this, user);
             OpenFormInPanel(frm);
         }
+
         private void btnSettings_Click(object sender, EventArgs e)
         {
-            var frm = new SettingsForm();
+            var frm = new SettingsForm(user);
             OpenFormInPanel(frm);
         }
     }

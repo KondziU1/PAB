@@ -28,35 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
-            textBox3 = new TextBox();
+            txtOldPass = new TextBox();
+            txtNewPass = new TextBox();
+            txtNewPass2 = new TextBox();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
             btnConfirm = new FontAwesome.Sharp.IconButton();
             SuspendLayout();
             // 
-            // textBox1
+            // txtOldPass
             // 
-            textBox1.Location = new Point(135, 64);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(183, 23);
-            textBox1.TabIndex = 0;
+            txtOldPass.Location = new Point(135, 64);
+            txtOldPass.Name = "txtOldPass";
+            txtOldPass.Size = new Size(183, 23);
+            txtOldPass.TabIndex = 0;
             // 
-            // textBox2
+            // txtNewPass
             // 
-            textBox2.Location = new Point(135, 124);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(183, 23);
-            textBox2.TabIndex = 1;
+            txtNewPass.Location = new Point(135, 124);
+            txtNewPass.Name = "txtNewPass";
+            txtNewPass.Size = new Size(183, 23);
+            txtNewPass.TabIndex = 1;
             // 
-            // textBox3
+            // txtNewPass2
             // 
-            textBox3.Location = new Point(135, 180);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(183, 23);
-            textBox3.TabIndex = 2;
+            txtNewPass2.Location = new Point(135, 180);
+            txtNewPass2.Name = "txtNewPass2";
+            txtNewPass2.Size = new Size(183, 23);
+            txtNewPass2.TabIndex = 2;
             // 
             // label1
             // 
@@ -99,6 +99,7 @@
             btnConfirm.Text = "Zatwierdź zmiany";
             btnConfirm.TextAlign = ContentAlignment.MiddleRight;
             btnConfirm.UseVisualStyleBackColor = true;
+            btnConfirm.Click += btnConfirm_Click;
             // 
             // ChangePasswordForm
             // 
@@ -111,9 +112,9 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(textBox3);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
+            Controls.Add(txtNewPass2);
+            Controls.Add(txtNewPass);
+            Controls.Add(txtOldPass);
             FormBorderStyle = FormBorderStyle.None;
             Name = "ChangePasswordForm";
             StartPosition = FormStartPosition.CenterParent;
@@ -124,9 +125,9 @@
 
         #endregion
 
-        private TextBox textBox1;
-        private TextBox textBox2;
-        private TextBox textBox3;
+        private TextBox txtOldPass;
+        private TextBox txtNewPass;
+        private TextBox txtNewPass2;
         private Label label1;
         private Label label2;
         private Label label3;

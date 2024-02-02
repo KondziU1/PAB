@@ -1,23 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Xml.Serialization;
-using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
-using PAB.Forms.UserManagement;
-using PAB.Models;
+﻿using PAB.Models;
 using PAB.Services;
+using System.Data;
 
 namespace PAB.Forms.UserManagement
 {
     public partial class ReportsForm : Form
     {
-        User user;
+        private User user;
+
         public ReportsForm(User user)
         {
             this.user = user;
@@ -26,9 +16,21 @@ namespace PAB.Forms.UserManagement
 
         internal void LoadData()
         {
-            var reports = ReportService.GetAllReports().Where(r => r.Status != "Zrealizowane" && r.Manager_id == user.Id).ToList();
+            var reports = ReportService.GetAllReports();
+            if (user.Role == "Admin")
+            {
+                reports = reports.Where(r => r.Status != "Zrealizowane" && r.User.Role == "Manager").ToList();
+            }
+            else
+            {
+                reports = reports.Where(r => r.Status != "Zrealizowane" && r.ManagerId == user.Id).ToList();
+            }
+            
             dataGridView1.DataSource = reports;
             dataGridView1.Columns[2].Visible = false;
+            dataGridView1.Columns[7].Visible = false;
+            dataGridView1.Columns[8].Visible = false;
+            dataGridView1.Columns[9].Visible = false;
         }
 
         private Report GetSelectedReport()
@@ -49,11 +51,8 @@ namespace PAB.Forms.UserManagement
 
         private void Notify(Report report)
         {
-            var user = UserService.GetUserById(report.User_ID);
-            var device = DeviceService.GetDeviceById(report.Device_ID);
-
-            string message = $"Zgłoszenie urządzenia: {device.Name} zostało: {report.Status}";
-            NotificationService.SendNotificationToUser(message, user);
+            string message = $"Zgłoszenie urządzenia: {report.Device.Name} zostało: {report.Status}";
+            NotificationService.SendNotificationToUser(message, report.User);
         }
 
         private void btnShowReport_Click(object sender, EventArgs e)

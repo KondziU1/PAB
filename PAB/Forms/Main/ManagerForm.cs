@@ -28,12 +28,6 @@ namespace PAB.Forms.Main
             this.Dispose();
         }
 
-        private void btnUsers_Click(object sender, EventArgs e)
-        {
-            var frm = new UsersForm();
-            OpenFormInPanel(frm);
-        }
-
         private void btnHome_Click(object sender, EventArgs e)
         {
             var frm = new HomeForm(user);
@@ -63,7 +57,7 @@ namespace PAB.Forms.Main
 
         private void btnSettings_Click(object sender, EventArgs e)
         {
-            var frm = new SettingsForm();
+            var frm = new SettingsForm(user);
             OpenFormInPanel(frm);
         }
 

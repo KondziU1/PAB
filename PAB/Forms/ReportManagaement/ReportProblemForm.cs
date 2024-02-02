@@ -1,16 +1,5 @@
-﻿using Microsoft.VisualBasic.Logging;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using PAB.Models;
+﻿using PAB.Models;
 using PAB.Services;
-using Microsoft.Identity.Client;
 
 namespace PAB.Forms.UserManagement
 {
@@ -36,25 +25,28 @@ namespace PAB.Forms.UserManagement
 
         private void Notify(Report report)
         {
-            var user = UserService.GetUserById(report.User_ID);
+            var employee = user.Employee;
 
-            if (user.Employee_ID == null)
+            if (user.Employee == null)
             {
                 return;
             }
-
-            var employee = EmployeeService.GetEmployeeById((int)user.Employee_ID);
 
             string message = $"Nowe zgłoszenie od {employee.FullName}({user.Login})";
 
-            if (user.Manager_ID == null)
+            if (user.Role == "Basic")
             {
-                return;
+                var manager = UserService.GetUserById(((int)user.ManagerId));
+
+                if (manager != null)
+                {
+                    NotificationService.SendNotificationToUser(message, manager);
+                }
             }
-
-            var manager = UserService.GetUserById((int)user.Manager_ID);
-
-            NotificationService.SendNotificationToUser(message, manager);
+            else
+            {
+                NotificationService.SendNotificationToStaff(message);
+            }
         }
 
         private void btnSendReport_Click(object sender, EventArgs e)
@@ -64,7 +56,7 @@ namespace PAB.Forms.UserManagement
             var result = MessageBox.Show("Czy na pewno chcesz wysłać zgłoszenie?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                var report = new Report(user.Id, description, problemId, device.Id, user.Manager_ID, "Wysłane");
+                var report = new Report(user.Id, description, problemId, device.Id, user.ManagerId, "Wysłane");
                 ReportService.AddReport(report);
                 Notify(report);
                 this.Close();

@@ -8,8 +8,9 @@ namespace PAB.Forms.UserManagement
 {
     public partial class RequestDetailsForm : Form
     {
-        Request request;
-        Form parentForm;
+        private Request request;
+        private Form parentForm;
+
         public RequestDetailsForm(Request request, Form parentForm)
         {
             this.parentForm = parentForm;
@@ -19,21 +20,17 @@ namespace PAB.Forms.UserManagement
 
         private void RequestsForm_Load(object sender, EventArgs e)
         {
-            var user = UserService.GetUserById(request.User_ID);
-            var device = DeviceService.GetDeviceById(request.Device_ID);
-
-            txtApplicant.Text = user.Login;
-            txtDevice.Text = device.Name;
+            txtApplicant.Text = request.User.Login;
+            txtDevice.Text = request.Device.Name;
             rtxtReason.Text = request.Reason;
         }
+
         private void Notify()
         {
-            var user = UserService.GetUserById(request.User_ID);
-            var device = DeviceService.GetDeviceById(request.Device_ID);
-
-            string message = $"Wniosek o urządzenie: {device.Name} został {request.Status}";
-            NotificationService.SendNotificationToUser(message, user);
+            string message = $"Wniosek o urządzenie: {request.Device.Name} został {request.Status}";
+            NotificationService.SendNotificationToUser(message, request.User);
         }
+
         private void ChangeRequestStatus(string status)
         {
             var message = status == "Zaakceptowany" ? $"Czy na pewno chcesz zaakceptowac wniosek o id: {request.Id}?" : $"Czy na pewno chcesz odrzucić wniosek o id: {request.Id}?";
@@ -54,13 +51,11 @@ namespace PAB.Forms.UserManagement
 
         private void btnAccept_Click(object sender, EventArgs e)
         {
-            var device = DeviceService.GetDeviceById(request.Device_ID);
-
-            if (device.Quantity == 0)
+            if (request.Device.Quantity == 0)
             {
-                var message = $"Urządzenie: {device.Name} jest aktualnie niedostępne";
-                MessageBox.Show(message,"",MessageBoxButtons.OK, MessageBoxIcon.Information);
-                var user = UserService.GetUserById(request.User_ID) ;
+                var message = $"Urządzenie: {request.Device.Name} jest aktualnie niedostępne";
+                MessageBox.Show(message, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                var user = UserService.GetUserById(request.UserId);
                 NotificationService.SendNotificationToUser(message, user);
                 RequestService.DeleteRequest(request);
                 var frm = (RequestsForm)parentForm;
@@ -70,14 +65,13 @@ namespace PAB.Forms.UserManagement
             }
 
             ChangeRequestStatus("Zaakceptowany");
-            if(request.Status == "Zaakceptowany")
+            if (request.Status == "Zaakceptowany")
             {
-                var userDevice = new AssignedDevice(request.Device_ID, request.User_ID);
-                device.Quantity -= 1;
-                DeviceService.UpdateDevice(device);
+                var userDevice = new AssignedDevice(request.DeviceId, request.UserId);
+                request.Device.Quantity -= 1;
+                DeviceService.UpdateDevice(request.Device);
                 DeviceService.AssignDevice(userDevice);
             }
-           
         }
 
         private void btnReject_Click(object sender, EventArgs e)

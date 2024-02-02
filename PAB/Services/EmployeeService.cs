@@ -47,7 +47,7 @@ namespace PAB.Services
         {
             var users = UserService.GetAllUsers();
             var employeesWithoutUser = GetAllEmployees()
-                .Where(e => !users.Any(u => u.Employee_ID == e.Id))
+                .Where(e => !users.Any(u => u.EmployeeId == e.Id))
                 .ToList();
             return employeesWithoutUser;
         }

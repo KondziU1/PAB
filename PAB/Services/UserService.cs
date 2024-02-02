@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using PAB.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace PAB.Services
 {
@@ -17,7 +18,7 @@ namespace PAB.Services
             {
                 using (var context = new DatabaseContext())
                 {
-                    var users = context.Users.ToList();
+                    var users = context.Users.Include(e => e.Employee).ToList();
                     return users;
                 }
             }
@@ -50,7 +51,7 @@ namespace PAB.Services
             {
                 using (var context = new DatabaseContext())
                 {
-                    var user = context.Users.FirstOrDefault(u => u.Login == login);
+                    var user = context.Users.Include(e => e.Employee).FirstOrDefault(u => u.Login == login);
 
                     if (user != null && UserService.VerifyPassword(password, user.Password))
                     {
@@ -130,7 +131,7 @@ namespace PAB.Services
         }
         public static List<Device> GetUserDevices(User user)
         {
-            var devices = DeviceService.GetAssignedDevices().Where(u => u.User_ID == user.Id).Select(d => DeviceService.GetDeviceById(d.Device_ID)).ToList();
+            var devices = DeviceService.GetAssignedDevices().Where(u => u.UserId == user.Id).Select(d => d.Device).ToList();
             return devices;
         }
     }

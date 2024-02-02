@@ -1,9 +1,12 @@
-﻿using PAB.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using PAB.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace PAB.Services  
 {
@@ -108,7 +111,7 @@ namespace PAB.Services
             {
                 using (var context = new DatabaseContext())
                 {
-                    var devices = context.AssignedDevices.ToList();
+                    var devices = context.AssignedDevices.Include(d => d.Device.Category).ToList();
                     return devices;
                 }
             }
@@ -133,5 +136,6 @@ namespace PAB.Services
                 MessageBox.Show("Nie udało się nawiązać połączenia z bazą danych: " + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
     }
 }

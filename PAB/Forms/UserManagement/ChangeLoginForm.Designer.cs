@@ -31,8 +31,8 @@
             btnConfirm = new FontAwesome.Sharp.IconButton();
             label3 = new Label();
             label1 = new Label();
-            textBox3 = new TextBox();
-            textBox1 = new TextBox();
+            txtPassword = new TextBox();
+            txtLogin = new TextBox();
             SuspendLayout();
             // 
             // btnConfirm
@@ -49,6 +49,7 @@
             btnConfirm.Text = "Zatwierdź zmiany";
             btnConfirm.TextAlign = ContentAlignment.MiddleRight;
             btnConfirm.UseVisualStyleBackColor = true;
+            btnConfirm.Click += btnConfirm_Click;
             // 
             // label3
             // 
@@ -68,19 +69,19 @@
             label1.TabIndex = 10;
             label1.Text = "Nowy login:";
             // 
-            // textBox3
+            // txtPassword
             // 
-            textBox3.Location = new Point(133, 141);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(183, 23);
-            textBox3.TabIndex = 9;
+            txtPassword.Location = new Point(133, 141);
+            txtPassword.Name = "txtPassword";
+            txtPassword.Size = new Size(183, 23);
+            txtPassword.TabIndex = 9;
             // 
-            // textBox1
+            // txtLogin
             // 
-            textBox1.Location = new Point(133, 73);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(183, 23);
-            textBox1.TabIndex = 7;
+            txtLogin.Location = new Point(133, 73);
+            txtLogin.Name = "txtLogin";
+            txtLogin.Size = new Size(183, 23);
+            txtLogin.TabIndex = 7;
             // 
             // ChangeLoginForm
             // 
@@ -92,8 +93,8 @@
             Controls.Add(btnConfirm);
             Controls.Add(label3);
             Controls.Add(label1);
-            Controls.Add(textBox3);
-            Controls.Add(textBox1);
+            Controls.Add(txtPassword);
+            Controls.Add(txtLogin);
             FormBorderStyle = FormBorderStyle.None;
             Name = "ChangeLoginForm";
             StartPosition = FormStartPosition.CenterParent;
@@ -108,7 +109,7 @@
         private FontAwesome.Sharp.IconButton btnConfirm;
         private Label label3;
         private Label label1;
-        private TextBox textBox3;
-        private TextBox textBox1;
+        private TextBox txtPassword;
+        private TextBox txtLogin;
     }
 }

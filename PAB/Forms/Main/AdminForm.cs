@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using PAB.Forms.DevicesManagement;
 using PAB.Forms.UserManagement;
-using PAB.Forms.DevicesManagement;
 using PAB.Models;
-using PAB.Services;
 
 namespace PAB.Forms.Main
 {
@@ -27,6 +17,9 @@ namespace PAB.Forms.Main
         private void Form1_Load(object sender, EventArgs e)
         {
             labelLogin.Text = user.Login;
+
+            var frm = new HomeForm(user);
+            OpenFormInPanel(frm);
         }
 
         private void AdminForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -43,13 +36,14 @@ namespace PAB.Forms.Main
 
         private void btnUsers_Click(object sender, EventArgs e)
         {
-            var frm = new UsersForm();
+            var frm = new UsersForm(user);
             OpenFormInPanel(frm);
         }
 
         private void btnHome_Click(object sender, EventArgs e)
         {
-            panelForm.Controls.Clear();
+            var frm = new HomeForm(user);
+            OpenFormInPanel(frm);
         }
 
         public void OpenFormInPanel(Form frm)
@@ -70,7 +64,13 @@ namespace PAB.Forms.Main
 
         private void btnSettings_Click(object sender, EventArgs e)
         {
-            var frm = new SettingsForm();
+            var frm = new SettingsForm(user);
+            OpenFormInPanel(frm);
+        }
+
+        private void btnReports_Click(object sender, EventArgs e)
+        {
+            var frm = new ReportsForm(user);
             OpenFormInPanel(frm);
         }
     }

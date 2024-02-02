@@ -1,11 +1,12 @@
 ﻿using PAB.Forms.Main;
 using PAB.Models;
+using PAB.Services;
 
 namespace PAB.Forms.DevicesManagement
 {
     public partial class OptionSelectorForm : Form
     {
-        User user;
+        private User user;
         private Form parentForm;
 
         public OptionSelectorForm(Form parentForm, User user)
@@ -41,6 +42,12 @@ namespace PAB.Forms.DevicesManagement
         {
             var frm = new UserDevicesForm(user, this);
             OpenForm(frm);
+        }
+
+        private void OptionSelectorForm_Load(object sender, EventArgs e)
+        {
+            if (parentForm is AdminForm adminForm)
+                btnDevices.Text = "Sprzęt firmowy";
         }
     }
 }

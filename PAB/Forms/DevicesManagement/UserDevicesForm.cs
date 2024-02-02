@@ -1,5 +1,4 @@
-﻿using PAB.Forms.Main;
-using PAB.Forms.UserManagement;
+﻿using PAB.Forms.UserManagement;
 using PAB.Models;
 using PAB.Services;
 
@@ -30,20 +29,21 @@ namespace PAB.Forms.DevicesManagement
 
         private void LoadData()
         {
-            var userDevices = UserService.GetUserDevices(user).Select(d => new { ID = d.Id, Name = d.Name, Category = DeviceService.GetDeviceCategoryById(d.Category_ID).Name }).ToList();
+            var userDevices = UserService.GetUserDevices(user).Select(d => new { ID = d.Id, Name = d.Name, Category = d.Category.Name }).ToList();
             dataGridView1.DataSource = userDevices;
             dataGridView1.Columns[0].Visible = false;
         }
 
         private void UserDevicesForm_Load(object sender, EventArgs e)
         {
-            if (user.Role == "Basic")
+            if(user.Role == "Manager")
             {
                 btnReport.Enabled = true;
             }
-            else
+
+            if (user.Role == "Basic")
             {
-                return;
+                btnReport.Enabled = user.ManagerId == null ? false : true;
             }
 
             LoadData();

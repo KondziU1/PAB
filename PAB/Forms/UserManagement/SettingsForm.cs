@@ -1,10 +1,15 @@
-﻿namespace PAB.Forms.UserManagement
+﻿using PAB.Models;
+
+namespace PAB.Forms.UserManagement
 {
     public partial class SettingsForm : Form
     {
-        public SettingsForm()
+        private User user;
+
+        public SettingsForm(User user)
         {
             InitializeComponent();
+            this.user = user;
         }
 
         public void OpenFormInPanel(Form frm)
@@ -19,13 +24,13 @@
 
         private void btnChangePassword_Click(object sender, EventArgs e)
         {
-            var frm = new ChangePasswordForm();
+            var frm = new ChangePasswordForm(user);
             OpenFormInPanel(frm);
         }
 
         private void btnChangeLogin_Click(object sender, EventArgs e)
         {
-            var frm = new ChangeLoginForm();
+            var frm = new ChangeLoginForm(user);
             OpenFormInPanel(frm);
         }
     }

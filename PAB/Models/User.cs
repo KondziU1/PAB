@@ -8,6 +8,7 @@ namespace PAB.Models
 {
     public class User
     {
+        public User() { }
         public User(string login, string password, string role)
         {
             Login = login;
@@ -19,7 +20,9 @@ namespace PAB.Models
         public string Login { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }
-        public int? Manager_ID { get; set; }
-        public int? Employee_ID { get; set; } 
+        public int? ManagerId { get; set; }
+        public int? EmployeeId { get; set; } 
+
+        public Employee? Employee { get; set; }
     }
 }

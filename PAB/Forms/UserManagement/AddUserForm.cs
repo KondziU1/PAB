@@ -1,15 +1,6 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using PAB.Models;
+﻿using PAB.Models;
 using PAB.Services;
+using System.Data;
 
 namespace PAB.Forms.UserManagement
 {
@@ -48,8 +39,8 @@ namespace PAB.Forms.UserManagement
 
             if (!isUserExists)
             {
-                user.Employee_ID = employee.Id;
-                user.Manager_ID = (int?)cbManager.SelectedValue;
+                user.EmployeeId = employee.Id;
+                user.ManagerId = (int?)cbManager.SelectedValue;
                 UserService.AddUser(user);
                 MessageBox.Show("Dodano nowego użytkownika.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 var frm = (UsersForm)parentForm;
@@ -77,7 +68,7 @@ namespace PAB.Forms.UserManagement
             .Select(u => new
             {
                 Id = u.Id,
-                FullName = EmployeeService.GetEmployeeById((int)u.Employee_ID).FullName
+                FullName = u.Employee.FullName
             })
             .ToList();
 
