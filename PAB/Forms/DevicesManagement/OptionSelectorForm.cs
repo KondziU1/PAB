@@ -47,7 +47,19 @@ namespace PAB.Forms.DevicesManagement
         private void OptionSelectorForm_Load(object sender, EventArgs e)
         {
             if (parentForm is AdminForm adminForm)
+            {
                 btnDevices.Text = "Sprzęt firmowy";
+                btnGenerateReport.Visible = true;
+            }
+        }
+
+        private void btnGenerateReport_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Czy na pewno chcesz wygenerować raport?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                DeviceService.GenerateAssignedDevicesReport();
+            }
         }
     }
 }

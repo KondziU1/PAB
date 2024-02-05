@@ -27,7 +27,8 @@ namespace PAB.Forms.UserManagement
                 return;
             }
 
-            var manager = UserService.GetUserById((int)user.ManagerId);
+            var manager = user.Manager;
+
             if (manager != null)
             {
                 NotificationService.SendNotificationToUser(message, manager);

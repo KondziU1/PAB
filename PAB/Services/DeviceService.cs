@@ -1,14 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using iText.IO.Font;
+using iText.IO.Font.Constants;
+using iText.Kernel.Colors;
+using iText.Kernel.Font;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
+using Microsoft.EntityFrameworkCore;
 using PAB.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
+using System.Diagnostics;
 
-namespace PAB.Services  
+namespace PAB.Services
 {
     internal class DeviceService
     {
@@ -51,6 +53,7 @@ namespace PAB.Services
                 return null;
             }
         }
+
         public static DeviceCategory GetDeviceCategoryById(int id)
         {
             var category = GetDeviceCategories().FirstOrDefault(x => x.Id == id);
@@ -111,7 +114,7 @@ namespace PAB.Services
             {
                 using (var context = new DatabaseContext())
                 {
-                    var devices = context.AssignedDevices.Include(d => d.Device.Category).ToList();
+                    var devices = context.AssignedDevices.Include(d => d.Device.Category).Include(u => u.User.Employee).ToList();
                     return devices;
                 }
             }
@@ -121,6 +124,7 @@ namespace PAB.Services
                 return null;
             }
         }
+
         public static void AssignDevice(AssignedDevice userDevice)
         {
             try
@@ -135,6 +139,58 @@ namespace PAB.Services
             {
                 MessageBox.Show("Nie udało się nawiązać połączenia z bazą danych: " + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        public static void GenerateAssignedDevicesReport()
+        {
+            List<AssignedDevice> assignedDevices = GetAssignedDevices();
+            string currentDateTime = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PAB_Reports");
+            string outputPath = Path.Combine(folderPath, $"AssignedDevicesReport_{currentDateTime}.pdf");
+
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            using (var writer = new PdfWriter(outputPath))
+            {
+                using (var pdf = new PdfDocument(writer))
+                {
+                    var font = PdfFontFactory.CreateFont(StandardFonts.HELVETICA, PdfEncodings.CP1250);
+                    var black = new DeviceRgb(0, 0, 0);
+
+                    var document = new Document(pdf);
+                    document.SetFont(font).SetFontSize(15);
+                    document.SetTextAlignment(TextAlignment.CENTER);
+
+                    var table = new Table(4, false)
+                        .UseAllAvailableWidth()
+                        .SetWidth(UnitValue.CreatePercentValue(100));
+
+                    table.AddHeaderCell("Login").SetFontColor(black).SetBold();
+                    table.AddHeaderCell("Full Name").SetFontColor(black).SetBold();
+                    table.AddHeaderCell("Role").SetFontColor(black).SetBold();
+                    table.AddHeaderCell("Device").SetFontColor(black).SetBold();
+
+                    foreach (var assignedDevice in assignedDevices)
+                    {
+                        var userLogin = assignedDevice.User?.Login ?? "-";
+                        var userFullName = assignedDevice.User?.Employee?.FullName ?? "-";    
+                        var userRole = assignedDevice.User?.Role ?? "-";
+                        var deviceName = assignedDevice.Device?.Name ?? "-";
+
+                        table.AddCell(userLogin);
+                        table.AddCell(userFullName);
+                        table.AddCell(userRole);
+                        table.AddCell(deviceName);
+                    }
+
+                    document.Add(table);
+                }
+            }
+
+            Process.Start(new ProcessStartInfo(outputPath) { UseShellExecute = true });
         }
 
     }

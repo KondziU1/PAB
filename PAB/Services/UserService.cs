@@ -7,6 +7,15 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using PAB.Models;
 using Microsoft.EntityFrameworkCore;
+using iText.Kernel.Pdf;
+using System.Diagnostics;
+using iText.Kernel.Colors;
+using iText.Layout.Properties;
+using iText.IO.Font;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Kernel.Font;
+using iText.IO.Font.Constants;
 
 namespace PAB.Services
 {
@@ -18,7 +27,7 @@ namespace PAB.Services
             {
                 using (var context = new DatabaseContext())
                 {
-                    var users = context.Users.Include(e => e.Employee).ToList();
+                    var users = context.Users.Include(e => e.Employee).Include(u => u.Manager).ToList();
                     return users;
                 }
             }
@@ -51,7 +60,7 @@ namespace PAB.Services
             {
                 using (var context = new DatabaseContext())
                 {
-                    var user = context.Users.Include(e => e.Employee).FirstOrDefault(u => u.Login == login);
+                    var user = context.Users.Include(e => e.Employee).Include(u => u.Manager).FirstOrDefault(u => u.Login == login);
 
                     if (user != null && UserService.VerifyPassword(password, user.Password))
                     {
@@ -134,5 +143,62 @@ namespace PAB.Services
             var devices = DeviceService.GetAssignedDevices().Where(u => u.UserId == user.Id).Select(d => d.Device).ToList();
             return devices;
         }
+
+        public static void GenerateUsersReport()
+        {
+            var users = GetAllUsers();
+            string currentDateTime = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PAB_Reports");
+            string outputPath = Path.Combine(folderPath, $"UsersReport_{currentDateTime}.pdf");
+
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            using (var writer = new PdfWriter(outputPath))
+            {
+                using (var pdf = new PdfDocument(writer))
+                {
+                    var font = PdfFontFactory.CreateFont(StandardFonts.HELVETICA, PdfEncodings.CP1250);
+                    var black = new DeviceRgb(0, 0, 0);
+
+                    var document = new Document(pdf);
+                    document.SetFont(font).SetFontSize(15);
+                    document.SetTextAlignment(TextAlignment.CENTER);
+
+
+                    var table = new Table(5, false)
+                        .UseAllAvailableWidth()
+                        .SetWidth(UnitValue.CreatePercentValue(100));
+
+                    table.AddHeaderCell("Login").SetFontColor(black).SetBold();
+                    table.AddHeaderCell("Full Name").SetFontColor(black).SetBold();
+                    table.AddHeaderCell("Role").SetFontColor(black).SetBold();
+                    table.AddHeaderCell("Room").SetFontColor(black).SetBold();
+                    table.AddHeaderCell("Manager").SetFontColor(black).SetBold();
+
+                    foreach (var user in users)
+                    {
+                        var userLogin = user.Login ?? "-";
+                        var userFullName = user.Employee?.FullName ?? "-";
+                        var userRole = user.Role ?? "-";
+                        var userRoom = user.Employee?.RoomNumber.ToString() ?? "-";
+                        var managerFullName = user.Manager?.Employee?.FullName ?? "-";
+
+                        table.AddCell(userLogin);
+                        table.AddCell(userFullName);
+                        table.AddCell(userRole);
+                        table.AddCell(userRoom);
+                        table.AddCell(managerFullName);
+                    }
+
+                    document.Add(table);
+                }
+            }
+
+            Process.Start(new ProcessStartInfo(outputPath) { UseShellExecute = true });
+        }
+
     }
 }

@@ -30,6 +30,7 @@
         {
             btnEmployeeDevices = new FontAwesome.Sharp.IconButton();
             btnDevices = new FontAwesome.Sharp.IconButton();
+            btnGenerateReport = new FontAwesome.Sharp.IconButton();
             SuspendLayout();
             // 
             // btnEmployeeDevices
@@ -62,6 +63,22 @@
             btnDevices.UseVisualStyleBackColor = true;
             btnDevices.Click += btnDevices_Click;
             // 
+            // btnGenerateReport
+            // 
+            btnGenerateReport.Anchor = AnchorStyles.None;
+            btnGenerateReport.IconChar = FontAwesome.Sharp.IconChar.None;
+            btnGenerateReport.IconColor = Color.Black;
+            btnGenerateReport.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnGenerateReport.Location = new Point(52, 172);
+            btnGenerateReport.Name = "btnGenerateReport";
+            btnGenerateReport.RightToLeft = RightToLeft.Yes;
+            btnGenerateReport.Size = new Size(356, 39);
+            btnGenerateReport.TabIndex = 2;
+            btnGenerateReport.Text = "Generuj raport urządzeń użytkowników";
+            btnGenerateReport.UseVisualStyleBackColor = true;
+            btnGenerateReport.Visible = false;
+            btnGenerateReport.Click += btnGenerateReport_Click;
+            // 
             // OptionSelectorForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -69,6 +86,7 @@
             AutoSize = true;
             BackColor = Color.White;
             ClientSize = new Size(500, 283);
+            Controls.Add(btnGenerateReport);
             Controls.Add(btnDevices);
             Controls.Add(btnEmployeeDevices);
             FormBorderStyle = FormBorderStyle.None;
@@ -83,5 +101,6 @@
 
         private FontAwesome.Sharp.IconButton btnEmployeeDevices;
         private FontAwesome.Sharp.IconButton btnDevices;
+        private FontAwesome.Sharp.IconButton btnGenerateReport;
     }
 }

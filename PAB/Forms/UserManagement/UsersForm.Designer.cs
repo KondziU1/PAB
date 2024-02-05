@@ -35,6 +35,9 @@
             btnAddUser = new FontAwesome.Sharp.IconButton();
             btnDeleteUser = new FontAwesome.Sharp.IconButton();
             btnEditUser = new FontAwesome.Sharp.IconButton();
+            btnReport = new FontAwesome.Sharp.IconButton();
+            textBoxSearch = new TextBox();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -101,7 +104,7 @@
             btnAddUser.IconColor = Color.Black;
             btnAddUser.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnAddUser.ImageAlign = ContentAlignment.MiddleLeft;
-            btnAddUser.Location = new Point(791, 140);
+            btnAddUser.Location = new Point(781, 141);
             btnAddUser.Name = "btnAddUser";
             btnAddUser.Size = new Size(165, 60);
             btnAddUser.TabIndex = 9;
@@ -117,7 +120,7 @@
             btnDeleteUser.IconColor = Color.Black;
             btnDeleteUser.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnDeleteUser.ImageAlign = ContentAlignment.MiddleLeft;
-            btnDeleteUser.Location = new Point(791, 227);
+            btnDeleteUser.Location = new Point(781, 228);
             btnDeleteUser.Name = "btnDeleteUser";
             btnDeleteUser.Size = new Size(165, 60);
             btnDeleteUser.TabIndex = 10;
@@ -133,7 +136,7 @@
             btnEditUser.IconColor = Color.Black;
             btnEditUser.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnEditUser.ImageAlign = ContentAlignment.MiddleLeft;
-            btnEditUser.Location = new Point(791, 316);
+            btnEditUser.Location = new Point(781, 317);
             btnEditUser.Name = "btnEditUser";
             btnEditUser.Size = new Size(165, 60);
             btnEditUser.TabIndex = 11;
@@ -142,6 +145,42 @@
             btnEditUser.UseVisualStyleBackColor = true;
             btnEditUser.Click += btnEditUser_Click;
             // 
+            // btnReport
+            // 
+            btnReport.Anchor = AnchorStyles.Right;
+            btnReport.IconChar = FontAwesome.Sharp.IconChar.FilePdf;
+            btnReport.IconColor = Color.Black;
+            btnReport.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnReport.IconSize = 40;
+            btnReport.ImageAlign = ContentAlignment.MiddleLeft;
+            btnReport.Location = new Point(781, 483);
+            btnReport.Name = "btnReport";
+            btnReport.Size = new Size(165, 41);
+            btnReport.TabIndex = 12;
+            btnReport.Text = "Generuj raport";
+            btnReport.TextAlign = ContentAlignment.MiddleRight;
+            btnReport.UseVisualStyleBackColor = true;
+            btnReport.Click += btnReport_Click;
+            // 
+            // textBoxSearch
+            // 
+            textBoxSearch.Anchor = AnchorStyles.Right;
+            textBoxSearch.Location = new Point(779, 54);
+            textBoxSearch.Name = "textBoxSearch";
+            textBoxSearch.Size = new Size(167, 23);
+            textBoxSearch.TabIndex = 14;
+            textBoxSearch.TextChanged += textBoxSearch_TextChanged;
+            // 
+            // label1
+            // 
+            label1.Anchor = AnchorStyles.None;
+            label1.Location = new Point(779, 33);
+            label1.Name = "label1";
+            label1.Size = new Size(141, 18);
+            label1.TabIndex = 13;
+            label1.Tag = "";
+            label1.Text = "Wyszukaj pracownika:";
+            // 
             // UsersForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -149,6 +188,9 @@
             AutoSize = true;
             BackColor = Color.White;
             ClientSize = new Size(958, 535);
+            Controls.Add(textBoxSearch);
+            Controls.Add(label1);
+            Controls.Add(btnReport);
             Controls.Add(btnEditUser);
             Controls.Add(btnDeleteUser);
             Controls.Add(btnAddUser);
@@ -160,6 +202,7 @@
             Load += UsersForm_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -168,5 +211,8 @@
         private FontAwesome.Sharp.IconButton btnAddUser;
         private FontAwesome.Sharp.IconButton btnDeleteUser;
         private FontAwesome.Sharp.IconButton btnEditUser;
+        private FontAwesome.Sharp.IconButton btnReport;
+        private TextBox textBoxSearch;
+        private Label label1;
     }
 }

@@ -1,4 +1,5 @@
-﻿using PAB.Models;
+﻿using Microsoft.IdentityModel.Tokens;
+using PAB.Models;
 using PAB.Services;
 using System.Data;
 
@@ -6,7 +7,8 @@ namespace PAB.Forms.UserManagement
 {
     public partial class UsersForm : Form
     {
-        User user;
+        private User user;
+
         public UsersForm(User user)
         {
             InitializeComponent();
@@ -20,16 +22,20 @@ namespace PAB.Forms.UserManagement
 
         internal void LoadData()
         {
-            var users = UserService.GetAllUsers();
+            var users = UserService.GetAllUsers().Where(u => u.Employee != null).ToList();
+
+            var text = textBoxSearch.Text.ToLower();
 
             var userData = users
+                .Where(u => u.Employee.FullName.ToLower().Contains(text))
                 .Select(u => new
                 {
                     ID = u.Id,
                     Login = u.Login,
                     Role = u.Role,
-                    FullName = u?.Employee?.FullName ?? "-",
-                    Room = u?.Employee?.RoomNumber.ToString() ?? "-"
+                    FullName = u.Employee?.FullName ?? "-",
+                    Room = u.Employee?.RoomNumber.ToString() ?? "-",
+                    Manager = u.Manager?.Employee?.FullName ?? "-"
                 }).ToList();
 
             dataGridView1.DataSource = userData;
@@ -88,6 +94,20 @@ namespace PAB.Forms.UserManagement
 
             var frm = new EditUserForm(selectedUser, this);
             frm.ShowDialog();
+        }
+
+        private void btnReport_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Czy na pewno chcesz wygenerować raport?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                UserService.GenerateUsersReport();
+            }
+        }
+
+        private void textBoxSearch_TextChanged(object sender, EventArgs e)
+        {
+            LoadData();
         }
     }
 }
