@@ -20,7 +20,7 @@ namespace PAB.Services
             {
                 using (var context = new DatabaseContext())
                 {
-                    var devices = context.Devices.ToList();
+                    var devices = context.Devices.Include(c => c.Category).ToList();
                     return devices;
                 }
             }
@@ -141,12 +141,12 @@ namespace PAB.Services
             }
         }
 
-        public static void GenerateAssignedDevicesReport()
+        public static void GenerateAssignedDevicesPDF()
         {
-            List<AssignedDevice> assignedDevices = GetAssignedDevices();
+            var assignedDevices = GetAssignedDevices();
             string currentDateTime = DateTime.Now.ToString("yyyyMMdd_HHmmss");
             string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PAB_Reports");
-            string outputPath = Path.Combine(folderPath, $"AssignedDevicesReport_{currentDateTime}.pdf");
+            string outputPath = Path.Combine(folderPath, $"AssignedDevices_{currentDateTime}.pdf");
 
             if (!Directory.Exists(folderPath))
             {
@@ -176,7 +176,7 @@ namespace PAB.Services
                     foreach (var assignedDevice in assignedDevices)
                     {
                         var userLogin = assignedDevice.User?.Login ?? "-";
-                        var userFullName = assignedDevice.User?.Employee?.FullName ?? "-";    
+                        var userFullName = assignedDevice.User?.Employee?.FullName ?? "-";
                         var userRole = assignedDevice.User?.Role ?? "-";
                         var deviceName = assignedDevice.Device?.Name ?? "-";
 
@@ -193,5 +193,89 @@ namespace PAB.Services
             Process.Start(new ProcessStartInfo(outputPath) { UseShellExecute = true });
         }
 
+        public static void GenerateDevicesPDF()
+        {
+            var devices = GetAllDevices();
+            string currentDateTime = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PAB_Reports");
+            string outputPath = Path.Combine(folderPath, $"Devices_{currentDateTime}.pdf");
+
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            using (var writer = new PdfWriter(outputPath))
+            {
+                using (var pdf = new PdfDocument(writer))
+                {
+                    var font = PdfFontFactory.CreateFont(StandardFonts.HELVETICA, PdfEncodings.CP1250);
+                    var black = new DeviceRgb(0, 0, 0);
+
+                    var document = new Document(pdf);
+                    document.SetFont(font).SetFontSize(15);
+                    document.SetTextAlignment(TextAlignment.CENTER);
+
+                    var table = new Table(4, false)
+                        .UseAllAvailableWidth()
+                        .SetWidth(UnitValue.CreatePercentValue(100));
+
+                    table.AddHeaderCell("Name").SetFontColor(black).SetBold();
+                    table.AddHeaderCell("Category").SetFontColor(black).SetBold();
+                    table.AddHeaderCell("Condition").SetFontColor(black).SetBold();
+                    table.AddHeaderCell("Quantity").SetFontColor(black).SetBold();
+
+                    foreach (var device in devices)
+                    {
+                        var name = device.Name ?? "-";
+                        var category = device.Category?.Name ?? "-";
+                        var condition = device.Condition ?? "-";
+                        var quantity = device.Quantity.ToString() ?? "-";
+
+                        table.AddCell(name);
+                        table.AddCell(category);
+                        table.AddCell(condition);
+                        table.AddCell(quantity);
+                    }
+
+                    document.Add(table);
+                }
+            }
+
+            Process.Start(new ProcessStartInfo(outputPath) { UseShellExecute = true });
+        }
+
+        public static void ReturnDevice(AssignedDevice device)
+        {
+            var assignedDevice = GetAssignedDevices().FirstOrDefault(d => d.Id == device.Id);
+            if (assignedDevice != null)
+            {
+                try
+                {
+                    using (var context = new DatabaseContext())
+                    {
+                        context.AssignedDevices.Remove(assignedDevice);
+                        context.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Nie udało się nawiązać połączenia z bazą danych: " + ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                var returendDevice = new Device(device.Device.Name, "Używane", 1, device.Device.CategoryId);
+                var existingDevice = GetAllDevices().FirstOrDefault(d => d.Name == returendDevice.Name && d.Condition == returendDevice.Condition);
+                if(existingDevice != null) {
+        
+                    existingDevice.Quantity += 1;
+                    UpdateDevice(existingDevice);
+                }
+                else
+                {
+                    AddDevice(returendDevice);
+                }
+                
+            }
+        }
     }
 }

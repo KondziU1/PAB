@@ -42,7 +42,7 @@ namespace PAB.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AssignedDevices");
+                    b.ToTable("AssignedDevices", (string)null);
                 });
 
             modelBuilder.Entity("PAB.Models.Device", b =>
@@ -71,7 +71,7 @@ namespace PAB.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Devices");
+                    b.ToTable("Devices", (string)null);
                 });
 
             modelBuilder.Entity("PAB.Models.DeviceCategory", b =>
@@ -88,7 +88,7 @@ namespace PAB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DeviceCategories");
+                    b.ToTable("DeviceCategories", (string)null);
                 });
 
             modelBuilder.Entity("PAB.Models.Employee", b =>
@@ -99,15 +99,7 @@ namespace PAB.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -116,7 +108,7 @@ namespace PAB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("PAB.Models.Notification", b =>
@@ -141,7 +133,7 @@ namespace PAB.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notifications", (string)null);
                 });
 
             modelBuilder.Entity("PAB.Models.ProblemType", b =>
@@ -158,7 +150,7 @@ namespace PAB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProblemTypes");
+                    b.ToTable("ProblemTypes", (string)null);
                 });
 
             modelBuilder.Entity("PAB.Models.Report", b =>
@@ -196,7 +188,7 @@ namespace PAB.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reports");
+                    b.ToTable("Reports", (string)null);
                 });
 
             modelBuilder.Entity("PAB.Models.Request", b =>
@@ -230,7 +222,7 @@ namespace PAB.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Requests");
+                    b.ToTable("Requests", (string)null);
                 });
 
             modelBuilder.Entity("PAB.Models.User", b =>
@@ -263,9 +255,7 @@ namespace PAB.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.HasIndex("ManagerId");
-
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("PAB.Models.AssignedDevice", b =>
@@ -359,13 +349,7 @@ namespace PAB.Migrations
                         .WithMany()
                         .HasForeignKey("EmployeeId");
 
-                    b.HasOne("PAB.Models.User", "Manager")
-                        .WithMany()
-                        .HasForeignKey("ManagerId");
-
                     b.Navigation("Employee");
-
-                    b.Navigation("Manager");
                 });
 #pragma warning restore 612, 618
         }

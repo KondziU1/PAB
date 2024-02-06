@@ -43,6 +43,7 @@
             txtOldPass.Name = "txtOldPass";
             txtOldPass.Size = new Size(183, 23);
             txtOldPass.TabIndex = 0;
+            txtOldPass.UseSystemPasswordChar = true;
             // 
             // txtNewPass
             // 
@@ -50,6 +51,7 @@
             txtNewPass.Name = "txtNewPass";
             txtNewPass.Size = new Size(183, 23);
             txtNewPass.TabIndex = 1;
+            txtNewPass.UseSystemPasswordChar = true;
             // 
             // txtNewPass2
             // 
@@ -57,6 +59,7 @@
             txtNewPass2.Name = "txtNewPass2";
             txtNewPass2.Size = new Size(183, 23);
             txtNewPass2.TabIndex = 2;
+            txtNewPass2.UseSystemPasswordChar = true;
             // 
             // label1
             // 

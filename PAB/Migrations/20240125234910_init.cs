@@ -52,18 +52,6 @@ namespace PAB.Migrations
                     table.PrimaryKey("PK_Employees", x => x.Id);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Employees",
-                columns: new[] { "Id", "FirstName", "LastName", "RoomNumber", "PhoneNumber" },
-                values: new object[,]
-                {
-                        { 1, "Jan", "Kowalski", 101, "123-456-789" },
-                        { 2, "Anna", "Nowak", 102, "987-654-321" },
-                        { 3, "Marek", "Wiśniewski", 103, "555-123-456" },
-                        { 4, "Ewa", "Kwiatkowska", 104, "777-888-999" },
-                        { 5, "Piotr", "Zając", 105, "111-222-333" }
-                });
-
             migrationBuilder.CreateTable(
                 name: "ProblemTypes",
                 columns: table => new

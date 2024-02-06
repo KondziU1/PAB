@@ -12,8 +12,8 @@ using PAB.Models;
 namespace PAB.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240203221613_AddManagerRelationToUser")]
-    partial class AddManagerRelationToUser
+    [Migration("20240206161337_EmployeeTableModification")]
+    partial class EmployeeTableModification
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -102,15 +102,7 @@ namespace PAB.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -266,8 +258,6 @@ namespace PAB.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.HasIndex("ManagerId");
-
                     b.ToTable("Users");
                 });
 
@@ -362,13 +352,7 @@ namespace PAB.Migrations
                         .WithMany()
                         .HasForeignKey("EmployeeId");
 
-                    b.HasOne("PAB.Models.User", "Manager")
-                        .WithMany()
-                        .HasForeignKey("ManagerId");
-
                     b.Navigation("Employee");
-
-                    b.Navigation("Manager");
                 });
 #pragma warning restore 612, 618
         }

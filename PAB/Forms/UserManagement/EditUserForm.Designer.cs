@@ -37,13 +37,18 @@
             textBoxPassword = new TextBox();
             cbManager = new ComboBox();
             label5 = new Label();
+            numericUpDown1 = new NumericUpDown();
+            label6 = new Label();
+            label1 = new Label();
+            txtFullName = new TextBox();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
             // comboBoxRole
             // 
             comboBoxRole.DropDownStyle = ComboBoxStyle.DropDownList;
             comboBoxRole.FormattingEnabled = true;
-            comboBoxRole.Location = new Point(86, 131);
+            comboBoxRole.Location = new Point(27, 127);
             comboBoxRole.Name = "comboBoxRole";
             comboBoxRole.Size = new Size(184, 23);
             comboBoxRole.TabIndex = 17;
@@ -56,7 +61,7 @@
             btnSave.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnSave.IconSize = 35;
             btnSave.ImageAlign = ContentAlignment.MiddleLeft;
-            btnSave.Location = new Point(60, 221);
+            btnSave.Location = new Point(119, 167);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(210, 38);
             btnSave.TabIndex = 16;
@@ -67,7 +72,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(47, 134);
+            label4.Location = new Point(27, 109);
             label4.Name = "label4";
             label4.Size = new Size(33, 15);
             label4.TabIndex = 15;
@@ -76,7 +81,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(40, 90);
+            label3.Location = new Point(27, 65);
             label3.Name = "label3";
             label3.Size = new Size(40, 15);
             label3.TabIndex = 14;
@@ -85,7 +90,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(40, 42);
+            label2.Location = new Point(27, 17);
             label2.Name = "label2";
             label2.Size = new Size(40, 15);
             label2.TabIndex = 13;
@@ -93,24 +98,25 @@
             // 
             // textBoxLogin
             // 
-            textBoxLogin.Location = new Point(86, 39);
+            textBoxLogin.Location = new Point(27, 35);
             textBoxLogin.Name = "textBoxLogin";
             textBoxLogin.Size = new Size(184, 23);
             textBoxLogin.TabIndex = 12;
             // 
             // textBoxPassword
             // 
-            textBoxPassword.Location = new Point(86, 87);
+            textBoxPassword.Location = new Point(27, 83);
             textBoxPassword.Name = "textBoxPassword";
             textBoxPassword.Size = new Size(184, 23);
             textBoxPassword.TabIndex = 11;
+            textBoxPassword.UseSystemPasswordChar = true;
             // 
             // cbManager
             // 
             cbManager.DropDownStyle = ComboBoxStyle.DropDownList;
             cbManager.Enabled = false;
             cbManager.FormattingEnabled = true;
-            cbManager.Location = new Point(86, 172);
+            cbManager.Location = new Point(240, 127);
             cbManager.Name = "cbManager";
             cbManager.Size = new Size(184, 23);
             cbManager.TabIndex = 19;
@@ -119,18 +125,56 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(15, 175);
+            label5.Location = new Point(240, 109);
             label5.Name = "label5";
             label5.Size = new Size(67, 15);
             label5.TabIndex = 18;
             label5.Text = "Przełożony:";
+            // 
+            // numericUpDown1
+            // 
+            numericUpDown1.Location = new Point(240, 83);
+            numericUpDown1.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            numericUpDown1.Name = "numericUpDown1";
+            numericUpDown1.Size = new Size(184, 23);
+            numericUpDown1.TabIndex = 24;
+            numericUpDown1.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(240, 64);
+            label6.Name = "label6";
+            label6.Size = new Size(87, 15);
+            label6.TabIndex = 23;
+            label6.Text = "Numer pokoju:";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(240, 17);
+            label1.Name = "label1";
+            label1.Size = new Size(89, 15);
+            label1.TabIndex = 22;
+            label1.Text = "Imię i Nazwisko";
+            // 
+            // txtFullName
+            // 
+            txtFullName.Location = new Point(240, 35);
+            txtFullName.Name = "txtFullName";
+            txtFullName.Size = new Size(184, 23);
+            txtFullName.TabIndex = 21;
             // 
             // EditUserForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(311, 271);
+            ClientSize = new Size(449, 228);
+            Controls.Add(numericUpDown1);
+            Controls.Add(label6);
+            Controls.Add(label1);
+            Controls.Add(txtFullName);
             Controls.Add(cbManager);
             Controls.Add(label5);
             Controls.Add(comboBoxRole);
@@ -145,6 +189,7 @@
             Name = "EditUserForm";
             StartPosition = FormStartPosition.CenterScreen;
             Load += EditUserForm_Load;
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -160,5 +205,9 @@
         private TextBox textBoxPassword;
         private ComboBox cbManager;
         private Label label5;
+        private NumericUpDown numericUpDown1;
+        private Label label6;
+        private Label label1;
+        private TextBox txtFullName;
     }
 }

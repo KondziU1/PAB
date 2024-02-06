@@ -58,7 +58,7 @@ namespace PAB.Forms.DevicesManagement
             var result = MessageBox.Show("Czy na pewno chcesz wygenerować raport?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                DeviceService.GenerateAssignedDevicesReport();
+                DeviceService.GenerateAssignedDevicesPDF();
             }
         }
     }

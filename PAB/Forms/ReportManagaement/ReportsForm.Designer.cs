@@ -33,6 +33,9 @@
             DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             dataGridView1 = new DataGridView();
             btnShowReport = new FontAwesome.Sharp.IconButton();
+            textBoxSearch = new TextBox();
+            label1 = new Label();
+            btnGeneratePDF = new FontAwesome.Sharp.IconButton();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -99,7 +102,7 @@
             btnShowReport.IconColor = Color.Black;
             btnShowReport.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnShowReport.ImageAlign = ContentAlignment.MiddleLeft;
-            btnShowReport.Location = new Point(770, 409);
+            btnShowReport.Location = new Point(770, 434);
             btnShowReport.Name = "btnShowReport";
             btnShowReport.Size = new Size(176, 89);
             btnShowReport.TabIndex = 14;
@@ -108,6 +111,42 @@
             btnShowReport.UseVisualStyleBackColor = true;
             btnShowReport.Click += btnShowReport_Click;
             // 
+            // textBoxSearch
+            // 
+            textBoxSearch.Anchor = AnchorStyles.Right;
+            textBoxSearch.Location = new Point(779, 54);
+            textBoxSearch.Name = "textBoxSearch";
+            textBoxSearch.Size = new Size(167, 23);
+            textBoxSearch.TabIndex = 18;
+            textBoxSearch.TextChanged += textBoxSearch_TextChanged;
+            // 
+            // label1
+            // 
+            label1.Anchor = AnchorStyles.None;
+            label1.Location = new Point(779, 33);
+            label1.Name = "label1";
+            label1.Size = new Size(141, 18);
+            label1.TabIndex = 17;
+            label1.Tag = "";
+            label1.Text = "Wyszukaj po numerze:";
+            // 
+            // btnGeneratePDF
+            // 
+            btnGeneratePDF.Anchor = AnchorStyles.Right;
+            btnGeneratePDF.IconChar = FontAwesome.Sharp.IconChar.FilePdf;
+            btnGeneratePDF.IconColor = Color.Black;
+            btnGeneratePDF.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnGeneratePDF.IconSize = 40;
+            btnGeneratePDF.ImageAlign = ContentAlignment.MiddleLeft;
+            btnGeneratePDF.Location = new Point(770, 387);
+            btnGeneratePDF.Name = "btnGeneratePDF";
+            btnGeneratePDF.Size = new Size(176, 41);
+            btnGeneratePDF.TabIndex = 20;
+            btnGeneratePDF.Text = "Generuj raport";
+            btnGeneratePDF.TextAlign = ContentAlignment.MiddleRight;
+            btnGeneratePDF.UseVisualStyleBackColor = true;
+            btnGeneratePDF.Click += btnGeneratePDF_Click;
+            // 
             // ReportsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -115,6 +154,9 @@
             AutoSize = true;
             BackColor = Color.White;
             ClientSize = new Size(958, 535);
+            Controls.Add(btnGeneratePDF);
+            Controls.Add(textBoxSearch);
+            Controls.Add(label1);
             Controls.Add(btnShowReport);
             Controls.Add(dataGridView1);
             FormBorderStyle = FormBorderStyle.None;
@@ -124,11 +166,15 @@
             Load += ReportsForm_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         public DataGridView dataGridView1;
         private FontAwesome.Sharp.IconButton btnShowReport;
+        private TextBox textBoxSearch;
+        private Label label1;
+        private FontAwesome.Sharp.IconButton btnGeneratePDF;
     }
 }

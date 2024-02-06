@@ -36,7 +36,7 @@ namespace PAB.Forms.UserManagement
 
             if (user.Role == "Basic")
             {
-                var manager = user.Manager;
+                var manager = UserService.GetUserById(user.ManagerId.Value);
 
                 if (manager != null)
                 {

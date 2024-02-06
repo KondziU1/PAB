@@ -21,10 +21,11 @@ namespace PAB.Models
         public DbSet<Request> Requests { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Employee> Employees { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var config = new ConfigurationBuilder().AddUserSecrets<DatabaseContext>().Build();
-            optionsBuilder.LogTo(Console.WriteLine,LogLevel.Information).UseSqlServer(config["ConnectionString"]);
+            optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information).UseSqlServer(config["ConnectionString"]);
         }
     }
 }

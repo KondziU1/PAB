@@ -7,6 +7,7 @@ namespace PAB.Forms.UserManagement
     public partial class RequestsForm : Form
     {
         private User user;
+        private List<Request> requests;
 
         public RequestsForm(User user)
         {
@@ -16,19 +17,35 @@ namespace PAB.Forms.UserManagement
 
         internal void LoadData()
         {
-            var requests = RequestService.GetAllRequests().Where(x => (x.Status == "Wysłany" || x.Status == "Otworzony") && x.ManagerId == user.Id).ToList();
-            dataGridView1.DataSource = requests;
-        }
+            requests = RequestService.GetAllRequests();
+            if (user.Role == "Manager")
+            {
+                requests = requests.Where(x => (x.Status == "Wysłany" || x.Status == "Otworzony") && x.ManagerId == user.Id).ToList();
+            }
+            else if (user.Role == "Basic")
+            {
+                requests = requests.Where(x => x.UserId == user.Id).ToList();
+            }
 
+            MapRequestData(requests);
+        }
+        private void MapRequestData(List<Request> requests)
+        {
+            var requestData = requests.Select(r => new { Request = r, Number = r.Id, Employee = r.User?.Employee?.FullName, Device = r.Device?.Name, Status = r.Status }).ToList();
+
+            dataGridView1.DataSource = requestData;
+            dataGridView1.Columns[0].Visible = false;
+        }
         private Request GetSelectedRequest()
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
 
-                Request selectedRequest = (Request)selectedRow.DataBoundItem;
+                var selectedItem = selectedRow.DataBoundItem as dynamic;
+                var request = selectedItem.Request as Request;
 
-                return selectedRequest;
+                return request;
             }
             return null;
         }
@@ -36,10 +53,17 @@ namespace PAB.Forms.UserManagement
         private void RequestsForm_Load(object sender, EventArgs e)
         {
             LoadData();
-            dataGridView1.Columns[3].Visible = false;
-            dataGridView1.Columns[4].Visible = false;
-            dataGridView1.Columns[6].Visible = false;
-            dataGridView1.Columns[7].Visible = false;
+
+            if (user.Role != "Admin")
+                btnGeneratePDF.Visible = false;
+
+            if (user.Role == "Basic")
+            {
+                btnShowRequest.Visible = false;
+                dataGridView1.Columns[2].Visible = false;
+            }
+
+            dataGridView1.Columns[0].Visible = false;
         }
 
         private void Notify(Request request)
@@ -64,6 +88,25 @@ namespace PAB.Forms.UserManagement
 
                 var frm = new RequestDetailsForm(request, this);
                 frm.ShowDialog();
+            }
+        }
+        private void FilterData(string searchText)
+        {
+            var filteredData = requests.Where(x => x.Id.ToString().Contains(searchText)).ToList();
+            MapRequestData(filteredData);
+
+        }
+        private void textBoxSearch_TextChanged(object sender, EventArgs e)
+        {
+            FilterData(textBoxSearch.Text);
+        }
+
+        private void btnGeneratePDF_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Czy na pewno chcesz wygenerować raport?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                RequestService.GenerateRequestsPDF();
             }
         }
     }

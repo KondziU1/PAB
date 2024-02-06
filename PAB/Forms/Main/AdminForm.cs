@@ -73,5 +73,10 @@ namespace PAB.Forms.Main
             var frm = new ReportsForm(user);
             OpenFormInPanel(frm);
         }
+        private void btnRequests_Click(object sender, EventArgs e)
+        {
+            var frm = new RequestsForm(user);
+            OpenFormInPanel(frm);
+        }
     }
 }

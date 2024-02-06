@@ -57,6 +57,10 @@ namespace PAB.Forms.DevicesManagement
                 btnAddDevice.Visible = true;
                 btnUpdateDevice.Visible = true;
             }
+            else
+            {
+                btnGeneratePDF.Visible = false;
+            }
 
             if (parentForm is not BasicUserForm basicUserForm)
             {
@@ -75,6 +79,7 @@ namespace PAB.Forms.DevicesManagement
             }
 
             LoadData();
+            dataGridView1.Columns[5].Visible = false;
             dataGridView1.Columns[4].Visible = false;
             dataGridView1.Columns[0].Visible = false;
         }
@@ -130,12 +135,8 @@ namespace PAB.Forms.DevicesManagement
 
             if (device == null) { return; }
 
-            var frm = new AssignDeviceForm(device, user);
+            var frm = new AssignDeviceForm(device, user, this);
             frm.ShowDialog();
-        }
-
-        private void btnSendRequest_Click(object sender, EventArgs e)
-        {
         }
 
         private void textBoxSearch_TextChanged(object sender, EventArgs e)
@@ -154,6 +155,15 @@ namespace PAB.Forms.DevicesManagement
             else
             {
                 AssignDevice();
+            }
+        }
+
+        private void btnGeneratePDF_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Czy na pewno chcesz wygenerować raport?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                DeviceService.GenerateDevicesPDF();
             }
         }
     }

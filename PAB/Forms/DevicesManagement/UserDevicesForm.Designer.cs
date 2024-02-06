@@ -34,6 +34,7 @@
             dataGridView1 = new DataGridView();
             btnBack = new FontAwesome.Sharp.IconButton();
             btnReport = new FontAwesome.Sharp.IconButton();
+            btnRetrunDevice = new FontAwesome.Sharp.IconButton();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -124,6 +125,22 @@
             btnReport.UseVisualStyleBackColor = true;
             btnReport.Click += btnReport_Click;
             // 
+            // btnRetrunDevice
+            // 
+            btnRetrunDevice.Anchor = AnchorStyles.Right;
+            btnRetrunDevice.IconChar = FontAwesome.Sharp.IconChar.ArrowLeftRotate;
+            btnRetrunDevice.IconColor = Color.Black;
+            btnRetrunDevice.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnRetrunDevice.ImageAlign = ContentAlignment.MiddleLeft;
+            btnRetrunDevice.Location = new Point(770, 349);
+            btnRetrunDevice.Name = "btnRetrunDevice";
+            btnRetrunDevice.Size = new Size(176, 54);
+            btnRetrunDevice.TabIndex = 11;
+            btnRetrunDevice.Text = "Zwróć urządzenie";
+            btnRetrunDevice.TextAlign = ContentAlignment.MiddleRight;
+            btnRetrunDevice.UseVisualStyleBackColor = true;
+            btnRetrunDevice.Click += btnRetrunDevice_Click;
+            // 
             // UserDevicesForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -131,6 +148,7 @@
             AutoSize = true;
             BackColor = Color.White;
             ClientSize = new Size(958, 535);
+            Controls.Add(btnRetrunDevice);
             Controls.Add(btnReport);
             Controls.Add(btnBack);
             Controls.Add(dataGridView1);
@@ -148,5 +166,6 @@
         public DataGridView dataGridView1;
         private FontAwesome.Sharp.IconButton btnBack;
         private FontAwesome.Sharp.IconButton btnReport;
+        private FontAwesome.Sharp.IconButton btnRetrunDevice;
     }
 }

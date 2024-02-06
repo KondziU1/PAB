@@ -2,12 +2,14 @@
 using PAB.Models;
 using PAB.Services;
 using System.Data;
+using System.Printing;
 
 namespace PAB.Forms.UserManagement
 {
     public partial class UsersForm : Form
     {
         private User user;
+        private List<User> users;
 
         public UsersForm(User user)
         {
@@ -22,12 +24,13 @@ namespace PAB.Forms.UserManagement
 
         internal void LoadData()
         {
-            var users = UserService.GetAllUsers().Where(u => u.Employee != null).ToList();
+            users = UserService.GetAllUsers().Where(u => u.Employee != null).ToList();
+            MapUserData(users);
+        }
 
-            var text = textBoxSearch.Text.ToLower();
-
+        private void MapUserData(List<User> users)
+        {
             var userData = users
-                .Where(u => u.Employee.FullName.ToLower().Contains(text))
                 .Select(u => new
                 {
                     ID = u.Id,
@@ -35,7 +38,7 @@ namespace PAB.Forms.UserManagement
                     Role = u.Role,
                     FullName = u.Employee?.FullName ?? "-",
                     Room = u.Employee?.RoomNumber.ToString() ?? "-",
-                    Manager = u.Manager?.Employee?.FullName ?? "-"
+                    Manager = u.ManagerId.HasValue ? UserService.GetUserById(u.ManagerId.Value)?.Employee?.FullName : "-"
                 }).ToList();
 
             dataGridView1.DataSource = userData;
@@ -59,12 +62,12 @@ namespace PAB.Forms.UserManagement
                 MessageBox.Show("Nie można usunać konta administratora!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
             DialogResult = MessageBox.Show($"Czy chcesz usunąć użytkownika: {selectedUser.Login} ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (DialogResult == DialogResult.Yes)
             {
                 UserService.DeleteUser(selectedUser);
+                EmployeeService.DeleteEmployee(selectedUser.Employee);
                 LoadData();
             }
         }
@@ -96,18 +99,24 @@ namespace PAB.Forms.UserManagement
             frm.ShowDialog();
         }
 
-        private void btnReport_Click(object sender, EventArgs e)
+        private void FilterData(string searchText)
         {
-            var result = MessageBox.Show("Czy na pewno chcesz wygenerować raport?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
-            {
-                UserService.GenerateUsersReport();
-            }
+            var filteredData = users.Where(x => x.Employee.FullName.ToString().Contains(searchText)).ToList();
+            MapUserData(filteredData);
         }
 
         private void textBoxSearch_TextChanged(object sender, EventArgs e)
         {
-            LoadData();
+            FilterData(textBoxSearch.Text);
+        }
+
+        private void btnGeneratePDF_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Czy na pewno chcesz wygenerować raport?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                UserService.GenerateUsersPDF();
+            }
         }
     }
 }

@@ -2,11 +2,17 @@
 {
     public class Employee
     {
+        public Employee()
+        { }
+
+        public Employee(string fullName, int roomNumber)
+        {
+            FullName = fullName;
+            RoomNumber = roomNumber;
+        }
+
         public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string FullName { get; set; }
         public int RoomNumber { get; set; }
-        public string PhoneNumber { get; set; }
-        public string FullName => $"{FirstName} {LastName}";
     }
 }

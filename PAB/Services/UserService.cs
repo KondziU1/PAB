@@ -27,7 +27,7 @@ namespace PAB.Services
             {
                 using (var context = new DatabaseContext())
                 {
-                    var users = context.Users.Include(e => e.Employee).Include(u => u.Manager).ToList();
+                    var users = context.Users.Include(e => e.Employee).ToList();
                     return users;
                 }
             }
@@ -60,7 +60,7 @@ namespace PAB.Services
             {
                 using (var context = new DatabaseContext())
                 {
-                    var user = context.Users.Include(e => e.Employee).Include(u => u.Manager).FirstOrDefault(u => u.Login == login);
+                    var user = context.Users.Include(e => e.Employee).FirstOrDefault(u => u.Login == login);
 
                     if (user != null && UserService.VerifyPassword(password, user.Password))
                     {
@@ -138,18 +138,18 @@ namespace PAB.Services
             else
                 return false;
         }
-        public static List<Device> GetUserDevices(User user)
+        public static List<AssignedDevice> GetUserDevices(User user)
         {
-            var devices = DeviceService.GetAssignedDevices().Where(u => u.UserId == user.Id).Select(d => d.Device).ToList();
+            var devices = DeviceService.GetAssignedDevices().Where(u => u.UserId == user.Id).ToList();
             return devices;
         }
 
-        public static void GenerateUsersReport()
+        public static void GenerateUsersPDF()
         {
             var users = GetAllUsers();
             string currentDateTime = DateTime.Now.ToString("yyyyMMdd_HHmmss");
             string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PAB_Reports");
-            string outputPath = Path.Combine(folderPath, $"UsersReport_{currentDateTime}.pdf");
+            string outputPath = Path.Combine(folderPath, $"Users_{currentDateTime}.pdf");
 
             if (!Directory.Exists(folderPath))
             {
@@ -184,7 +184,7 @@ namespace PAB.Services
                         var userFullName = user.Employee?.FullName ?? "-";
                         var userRole = user.Role ?? "-";
                         var userRoom = user.Employee?.RoomNumber.ToString() ?? "-";
-                        var managerFullName = user.Manager?.Employee?.FullName ?? "-";
+                        var managerFullName = user.ManagerId.HasValue ? UserService.GetUserById(user.ManagerId.Value)?.Employee?.FullName : "-";
 
                         table.AddCell(userLogin);
                         table.AddCell(userFullName);

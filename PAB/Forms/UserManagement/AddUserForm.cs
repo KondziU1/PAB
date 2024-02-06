@@ -19,10 +19,11 @@ namespace PAB.Forms.UserManagement
             var login = textBoxLogin.Text;
             var password = textBoxPassword.Text;
             var role = comboBoxRole.Text;
-            var employee = cbEmployee.SelectedItem as Employee;
             var manager = cbManager.Text;
+            var fullName = txtFullName.Text;
+            var room = (int)numericUpDown1.Value;
 
-            if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(role) || employee == null)
+            if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(role) || string.IsNullOrWhiteSpace(fullName) || room == 0)
             {
                 MessageBox.Show("Wszystkie pola są wymagane!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -35,13 +36,17 @@ namespace PAB.Forms.UserManagement
 
             var hashedPassword = UserService.HashPassword(password);
             var user = new User(login, hashedPassword, role);
+            var employee = new Employee(fullName, room);
             var isUserExists = UserService.IsUserExists(user);
 
             if (!isUserExists)
             {
-                user.EmployeeId = employee.Id;
+                EmployeeService.AddEmployee(employee);
                 user.ManagerId = (int?)cbManager.SelectedValue;
+                user.EmployeeId = employee.Id;
+
                 UserService.AddUser(user);
+
                 MessageBox.Show("Dodano nowego użytkownika.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 var frm = (UsersForm)parentForm;
                 frm.LoadData();
@@ -55,20 +60,16 @@ namespace PAB.Forms.UserManagement
 
         private void AddUserForm_Load(object sender, EventArgs e)
         {
-            comboBoxRole.Items.Add("Admin");
+            numericUpDown1.Controls[0].Visible = false;
             comboBoxRole.Items.Add("Manager");
             comboBoxRole.Items.Add("Basic");
-
-            cbEmployee.DataSource = EmployeeService.GetEmployeesWithoutUser();
-            cbEmployee.DisplayMember = "FullName";
-            cbEmployee.SelectedItem = null;
 
             cbManager.DataSource = UserService.GetAllUsers()
             .Where(u => u.Role == "Manager")
             .Select(u => new
             {
                 Id = u.Id,
-                FullName = u.Employee.FullName
+                FullName = u.Employee?.FullName
             })
             .ToList();
 

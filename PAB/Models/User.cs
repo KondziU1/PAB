@@ -24,6 +24,5 @@ namespace PAB.Models
         public int? EmployeeId { get; set; } 
 
         public Employee? Employee { get; set; }
-        public User? Manager { get; set; }
     }
 }

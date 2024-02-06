@@ -16,30 +16,28 @@ namespace PAB.Forms.DevicesManagement
             this.selector = selector;
         }
 
-        private int SelectedRowID()
+        private AssignedDevice GetSelectedDevice()
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
-                var id = Convert.ToInt32(selectedRow.Cells["ID"].Value);
-                return id;
+                var selectedItem = selectedRow.DataBoundItem as dynamic;
+                var device = selectedItem.AssignedDevice as AssignedDevice;
+                return device;
             }
-            return 0;
+            return null;
         }
 
         private void LoadData()
         {
-            var userDevices = UserService.GetUserDevices(user).Select(d => new { ID = d.Id, Name = d.Name, Category = d.Category.Name }).ToList();
+            var userDevices = UserService.GetUserDevices(user).Select(d => new { AssignedDevice = d, ID = d.Id, Name = d.Device.Name, Category = d.Device.Category.Name }).ToList();
             dataGridView1.DataSource = userDevices;
             dataGridView1.Columns[0].Visible = false;
+            dataGridView1.Columns[1].Visible = false;
         }
 
         private void UserDevicesForm_Load(object sender, EventArgs e)
         {
-            if(user.Role == "Manager")
-            {
-                btnReport.Enabled = true;
-            }
 
             if (user.Role == "Basic")
             {
@@ -51,8 +49,10 @@ namespace PAB.Forms.DevicesManagement
 
         private void btnReport_Click(object sender, EventArgs e)
         {
-            var deviceID = SelectedRowID();
-            Device device = DeviceService.GetDeviceById(deviceID);
+            var assignedDevice = GetSelectedDevice();
+            if (assignedDevice == null) return;
+
+            var device = assignedDevice.Device;
             if (device != null)
             {
                 var frm = new ReportProblemForm(user, device);
@@ -65,6 +65,22 @@ namespace PAB.Forms.DevicesManagement
             var frm = (OptionSelectorForm)selector;
             frm.OpenForm(frm);
             this.Close();
+        }
+
+        private void btnRetrunDevice_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Czy na pewno chcesz zwrócić urządzenie?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                var device = GetSelectedDevice();
+                if (device != null)
+                {
+                    DeviceService.ReturnDevice(device);
+                    LoadData();
+                }
+                else
+                    MessageBox.Show("Nie wybrano urządzenia do zwrotu!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }

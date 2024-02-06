@@ -19,7 +19,6 @@ namespace PAB.Forms.UserManagement
 
         private void EditUserForm_Load(object sender, EventArgs e)
         {
-            comboBoxRole.Items.Add("Admin");
             comboBoxRole.Items.Add("Manager");
             comboBoxRole.Items.Add("Basic");
 
@@ -50,7 +49,7 @@ namespace PAB.Forms.UserManagement
             .Select(u => new ManagerData
             {
                 Id = u.Id,
-                FullName = u.Employee.FullName
+                FullName = u.Employee?.FullName
             })
             .ToList();
 
@@ -61,6 +60,8 @@ namespace PAB.Forms.UserManagement
         {
             textBoxLogin.Text = user.Login;
             comboBoxRole.SelectedItem = user.Role;
+            txtFullName.Text = user.Employee.FullName;
+            numericUpDown1.Value = user.Employee.RoomNumber;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -92,6 +93,18 @@ namespace PAB.Forms.UserManagement
             if (manager != null && manager.Id != user.ManagerId)
             {
                 user.ManagerId = manager.Id;
+                anyFieldChanged = true;
+            }
+
+            if (numericUpDown1.Value != user.Employee.RoomNumber)
+            {
+                user.Employee.RoomNumber = (int)numericUpDown1.Value;
+                anyFieldChanged = true;
+            }
+
+            if (txtFullName.Text != user.Employee.FullName)
+            {
+                user.Employee.FullName = txtFullName.Text;
                 anyFieldChanged = true;
             }
 

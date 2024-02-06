@@ -30,7 +30,7 @@
         {
             labelLogin = new Label();
             panelMenu = new Panel();
-            btnApplications = new FontAwesome.Sharp.IconButton();
+            btnRequests = new FontAwesome.Sharp.IconButton();
             btnReports = new FontAwesome.Sharp.IconButton();
             iconPictureBox1 = new FontAwesome.Sharp.IconPictureBox();
             btnHome = new FontAwesome.Sharp.IconButton();
@@ -57,7 +57,7 @@
             panelMenu.BackColor = Color.WhiteSmoke;
             panelMenu.BackgroundImageLayout = ImageLayout.None;
             panelMenu.BorderStyle = BorderStyle.FixedSingle;
-            panelMenu.Controls.Add(btnApplications);
+            panelMenu.Controls.Add(btnRequests);
             panelMenu.Controls.Add(btnReports);
             panelMenu.Controls.Add(iconPictureBox1);
             panelMenu.Controls.Add(btnHome);
@@ -70,21 +70,21 @@
             panelMenu.Size = new Size(200, 574);
             panelMenu.TabIndex = 8;
             // 
-            // btnApplications
+            // btnRequests
             // 
-            btnApplications.IconChar = FontAwesome.Sharp.IconChar.FileText;
-            btnApplications.IconColor = Color.Black;
-            btnApplications.IconFont = FontAwesome.Sharp.IconFont.Solid;
-            btnApplications.IconSize = 35;
-            btnApplications.ImageAlign = ContentAlignment.MiddleLeft;
-            btnApplications.Location = new Point(27, 312);
-            btnApplications.Name = "btnApplications";
-            btnApplications.Size = new Size(141, 42);
-            btnApplications.TabIndex = 8;
-            btnApplications.Text = "Wnioski";
-            btnApplications.TextAlign = ContentAlignment.MiddleRight;
-            btnApplications.UseVisualStyleBackColor = true;
-            btnApplications.Click += btnApplications_Click;
+            btnRequests.IconChar = FontAwesome.Sharp.IconChar.FileText;
+            btnRequests.IconColor = Color.Black;
+            btnRequests.IconFont = FontAwesome.Sharp.IconFont.Solid;
+            btnRequests.IconSize = 35;
+            btnRequests.ImageAlign = ContentAlignment.MiddleLeft;
+            btnRequests.Location = new Point(27, 300);
+            btnRequests.Name = "btnRequests";
+            btnRequests.Size = new Size(141, 42);
+            btnRequests.TabIndex = 8;
+            btnRequests.Text = "Wnioski";
+            btnRequests.TextAlign = ContentAlignment.MiddleRight;
+            btnRequests.UseVisualStyleBackColor = true;
+            btnRequests.Click += btnRequests_Click;
             // 
             // btnReports
             // 
@@ -92,7 +92,7 @@
             btnReports.IconColor = Color.Black;
             btnReports.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnReports.ImageAlign = ContentAlignment.MiddleLeft;
-            btnReports.Location = new Point(27, 372);
+            btnReports.Location = new Point(27, 348);
             btnReports.Name = "btnReports";
             btnReports.Size = new Size(141, 42);
             btnReports.TabIndex = 7;
@@ -168,7 +168,7 @@
             btnSettings.IconColor = Color.Black;
             btnSettings.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnSettings.ImageAlign = ContentAlignment.MiddleLeft;
-            btnSettings.Location = new Point(27, 437);
+            btnSettings.Location = new Point(27, 396);
             btnSettings.Name = "btnSettings";
             btnSettings.Size = new Size(141, 40);
             btnSettings.TabIndex = 1;
@@ -214,7 +214,7 @@
         private Panel panelForm;
         private FontAwesome.Sharp.IconButton btnHome;
         private FontAwesome.Sharp.IconPictureBox iconPictureBox1;
-        private FontAwesome.Sharp.IconButton btnApplications;
+        private FontAwesome.Sharp.IconButton btnRequests;
         private FontAwesome.Sharp.IconButton btnReports;
     }
 }

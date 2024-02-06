@@ -40,12 +40,17 @@ namespace PAB.Forms.UserManagement
 
         private void btnChangeStatus_Click(object sender, EventArgs e)
         {
-            report.Status = comboBox1.Text;
-            ReportService.UpdateReport(report);
+            var result = MessageBox.Show($"Czy na pewno chcesz zmienić status na: {comboBox1.Text}?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                report.Status = comboBox1.Text;
+                ReportService.UpdateReport(report);
 
-            var frm = (ReportsForm)parentForm;
-            frm.LoadData();
-            Notify();
+                var frm = (ReportsForm)parentForm;
+                frm.LoadData();
+                Notify();
+                this.Close();
+            }
         }
     }
 }

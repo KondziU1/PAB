@@ -10,10 +10,12 @@ namespace PAB.Forms.UserManagement
     {
         private User user;
         private Device device;
+        private Form parentForm;
 
-        public AssignDeviceForm(Device device, User user)
+        public AssignDeviceForm(Device device, User user, Form parentForm)
         {
             this.device = device;
+            this.parentForm = parentForm;
             InitializeComponent();
             this.user = user;
         }
@@ -25,7 +27,6 @@ namespace PAB.Forms.UserManagement
             if (selectedItem != null)
             {
                 var selectedUser = selectedItem.User;
-                MessageBox.Show($"Wybrany użytkownik: {selectedUser?.Employee?.FullName}");
             }
         }
 
@@ -41,10 +42,17 @@ namespace PAB.Forms.UserManagement
             var user = selectedItem.User as User;
             if (user != null && device != null)
             {
-                var userDevice = new AssignedDevice(device.Id, user.Id);
-                device.Quantity -= 1;
-                DeviceService.UpdateDevice(device);
-                DeviceService.AssignDevice(userDevice);
+                if (device.Quantity != 0)
+                {
+                    var userDevice = new AssignedDevice(device.Id, user.Id);
+                    device.Quantity -= 1;
+                    DeviceService.UpdateDevice(device);
+                    DeviceService.AssignDevice(userDevice);
+                    var frm = (DevicesForm)parentForm;
+                    frm.LoadData();
+                }
+                else
+                    MessageBox.Show("Brak urządzenia na stanie!", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 this.Close();
             }
         }

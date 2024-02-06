@@ -50,9 +50,9 @@
             // 
             textBoxPassword.Location = new Point(117, 110);
             textBoxPassword.Name = "textBoxPassword";
-            textBoxPassword.PasswordChar = '*';
             textBoxPassword.Size = new Size(178, 23);
             textBoxPassword.TabIndex = 1;
+            textBoxPassword.UseSystemPasswordChar = true;
             // 
             // iconButton1
             // 

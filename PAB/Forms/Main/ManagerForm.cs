@@ -67,7 +67,7 @@ namespace PAB.Forms.Main
             OpenFormInPanel(frm);
         }
 
-        private void btnApplications_Click(object sender, EventArgs e)
+        private void btnRequests_Click(object sender, EventArgs e)
         {
             var frm = new RequestsForm(user);
             OpenFormInPanel(frm);

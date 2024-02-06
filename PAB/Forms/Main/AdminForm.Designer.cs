@@ -30,6 +30,8 @@
         {
             labelLogin = new Label();
             panelMenu = new Panel();
+            btnRequests = new FontAwesome.Sharp.IconButton();
+            btnReports = new FontAwesome.Sharp.IconButton();
             iconPictureBox1 = new FontAwesome.Sharp.IconPictureBox();
             btnHome = new FontAwesome.Sharp.IconButton();
             btnSignOut = new FontAwesome.Sharp.IconButton();
@@ -37,7 +39,6 @@
             btnSettings = new FontAwesome.Sharp.IconButton();
             btnUsers = new FontAwesome.Sharp.IconButton();
             panelForm = new Panel();
-            btnReports = new FontAwesome.Sharp.IconButton();
             panelMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox1).BeginInit();
             SuspendLayout();
@@ -57,6 +58,7 @@
             panelMenu.BackColor = Color.WhiteSmoke;
             panelMenu.BackgroundImageLayout = ImageLayout.None;
             panelMenu.BorderStyle = BorderStyle.FixedSingle;
+            panelMenu.Controls.Add(btnRequests);
             panelMenu.Controls.Add(btnReports);
             panelMenu.Controls.Add(iconPictureBox1);
             panelMenu.Controls.Add(btnHome);
@@ -69,6 +71,37 @@
             panelMenu.Name = "panelMenu";
             panelMenu.Size = new Size(200, 574);
             panelMenu.TabIndex = 8;
+            // 
+            // btnRequests
+            // 
+            btnRequests.IconChar = FontAwesome.Sharp.IconChar.FileText;
+            btnRequests.IconColor = Color.Black;
+            btnRequests.IconFont = FontAwesome.Sharp.IconFont.Solid;
+            btnRequests.IconSize = 35;
+            btnRequests.ImageAlign = ContentAlignment.MiddleLeft;
+            btnRequests.Location = new Point(27, 340);
+            btnRequests.Name = "btnRequests";
+            btnRequests.Size = new Size(141, 42);
+            btnRequests.TabIndex = 9;
+            btnRequests.Text = "Wnioski";
+            btnRequests.TextAlign = ContentAlignment.MiddleRight;
+            btnRequests.UseVisualStyleBackColor = true;
+            btnRequests.Click += btnRequests_Click;
+            // 
+            // btnReports
+            // 
+            btnReports.IconChar = FontAwesome.Sharp.IconChar.ListSquares;
+            btnReports.IconColor = Color.Black;
+            btnReports.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnReports.ImageAlign = ContentAlignment.MiddleLeft;
+            btnReports.Location = new Point(27, 388);
+            btnReports.Name = "btnReports";
+            btnReports.Size = new Size(141, 42);
+            btnReports.TabIndex = 8;
+            btnReports.Text = "Zgłoszenia";
+            btnReports.TextAlign = ContentAlignment.MiddleRight;
+            btnReports.UseVisualStyleBackColor = true;
+            btnReports.Click += btnReports_Click;
             // 
             // iconPictureBox1
             // 
@@ -122,7 +155,7 @@
             btnDevices.IconColor = Color.Black;
             btnDevices.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnDevices.ImageAlign = ContentAlignment.MiddleLeft;
-            btnDevices.Location = new Point(27, 317);
+            btnDevices.Location = new Point(27, 292);
             btnDevices.Name = "btnDevices";
             btnDevices.Size = new Size(141, 42);
             btnDevices.TabIndex = 2;
@@ -137,7 +170,7 @@
             btnSettings.IconColor = Color.Black;
             btnSettings.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnSettings.ImageAlign = ContentAlignment.MiddleLeft;
-            btnSettings.Location = new Point(27, 442);
+            btnSettings.Location = new Point(27, 436);
             btnSettings.Name = "btnSettings";
             btnSettings.Size = new Size(141, 40);
             btnSettings.TabIndex = 1;
@@ -153,7 +186,7 @@
             btnUsers.IconColor = Color.Black;
             btnUsers.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnUsers.ImageAlign = ContentAlignment.MiddleLeft;
-            btnUsers.Location = new Point(27, 252);
+            btnUsers.Location = new Point(27, 242);
             btnUsers.Name = "btnUsers";
             btnUsers.Size = new Size(141, 44);
             btnUsers.TabIndex = 0;
@@ -169,21 +202,6 @@
             panelForm.Name = "panelForm";
             panelForm.Size = new Size(974, 574);
             panelForm.TabIndex = 9;
-            // 
-            // btnReports
-            // 
-            btnReports.IconChar = FontAwesome.Sharp.IconChar.ListSquares;
-            btnReports.IconColor = Color.Black;
-            btnReports.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnReports.ImageAlign = ContentAlignment.MiddleLeft;
-            btnReports.Location = new Point(27, 382);
-            btnReports.Name = "btnReports";
-            btnReports.Size = new Size(141, 42);
-            btnReports.TabIndex = 8;
-            btnReports.Text = "Zgłoszenia";
-            btnReports.TextAlign = ContentAlignment.MiddleRight;
-            btnReports.UseVisualStyleBackColor = true;
-            btnReports.Click += btnReports_Click;
             // 
             // AdminForm
             // 
@@ -216,5 +234,6 @@
         private FontAwesome.Sharp.IconButton btnHome;
         private FontAwesome.Sharp.IconPictureBox iconPictureBox1;
         private FontAwesome.Sharp.IconButton btnReports;
+        private FontAwesome.Sharp.IconButton btnRequests;
     }
 }

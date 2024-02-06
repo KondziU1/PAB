@@ -81,6 +81,7 @@
             // 
             // txtDevice
             // 
+            txtDevice.Enabled = false;
             txtDevice.Location = new Point(78, 43);
             txtDevice.Name = "txtDevice";
             txtDevice.Size = new Size(184, 23);
