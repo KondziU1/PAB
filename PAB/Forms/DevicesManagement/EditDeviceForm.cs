@@ -7,9 +7,10 @@ namespace PAB.Forms.UserManagement
     public partial class EditDeviceForm : Form
     {
         private Device device;
-
-        public EditDeviceForm(Device device)
+        Form parentForm;
+        public EditDeviceForm(Device device, Form parentForm)
         {
+            this.parentForm = parentForm;
             this.device = device;
             InitializeComponent();
         }
@@ -44,7 +45,7 @@ namespace PAB.Forms.UserManagement
             device.Quantity = (int)numericUpDown1.Value;
             DeviceService.UpdateDevice(device);
 
-            var frm = Application.OpenForms.OfType<DevicesForm>().FirstOrDefault();
+            var frm = (DevicesForm)parentForm;
             frm.LoadData();
             this.Close();
         }

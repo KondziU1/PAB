@@ -8,9 +8,11 @@ namespace PAB.Forms.UserManagement
     {
         private string name;
         private int quantity, categoryId;
+        Form parentFotm;
 
-        public AddDeviceForm()
+        public AddDeviceForm(Form parentForm)
         {
+            this.parentFotm = parentForm;
             InitializeComponent();
         }
 
@@ -34,7 +36,7 @@ namespace PAB.Forms.UserManagement
             }
 
             DeviceService.AddDevice(device);
-            var frm = Application.OpenForms.OfType<DevicesForm>().FirstOrDefault();
+            var frm = (DevicesForm)parentFotm;
             frm.LoadData();
             this.Close();
         }

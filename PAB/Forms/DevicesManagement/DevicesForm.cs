@@ -86,7 +86,7 @@ namespace PAB.Forms.DevicesManagement
 
         private void btnAddDevice_Click(object sender, EventArgs e)
         {
-            var frm = new AddDeviceForm();
+            var frm = new AddDeviceForm(this);
             frm.ShowDialog();
         }
 
@@ -96,7 +96,7 @@ namespace PAB.Forms.DevicesManagement
             var device = DeviceService.GetDeviceById(id);
             if (device != null)
             {
-                var frm = new EditDeviceForm(device);
+                var frm = new EditDeviceForm(device,this);
                 frm.ShowDialog();
             }
         }
